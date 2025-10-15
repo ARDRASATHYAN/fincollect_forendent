@@ -32,7 +32,8 @@ export const getsmstemplateColumns =(handleDelete, handleEdit) => [
        <TooltipButton
           label="Edit SmsTemplate"
           onClick={() => handleEdit(row.original)}
-          className="bg-blue-600 text-white"
+          className="bg-buttonblue hover:bg-buttonblue-hover
+ text-white"
         >
           <FaEdit size={16} />
         </TooltipButton>

@@ -21,8 +21,8 @@ export default function Sidebar({ children }) {
   const navigationItems = [
     { icon: <PiBankFill />, name: "Bank", href: "/bank" },
     { icon: <FaUser />, name: "Agent", href: "/agent" },
-    { icon: <RxDashboard />, name: "DepositCode", href: "/depositcode" },
-    { icon: <MdTextsms />, name: "SMSTemplate", href: "/smstemplate" },
+    { icon: <RxDashboard />, name: "Deposit Code", href: "/depositcode" },
+    { icon: <MdTextsms />, name: "SMS Template", href: "/smstemplate" },
     ...(user?.role === "admin"
       ? [{ icon: <FaUsers />, name: "UserList", href: "/user" }]
       : []),
@@ -102,7 +102,7 @@ export default function Sidebar({ children }) {
                   {isExpanded && (
                     <span  className={cn(
                       "text-sm font-medium",
-                      isActive ? "text-blue-600" : "text-gray-800"
+                      isActive ? "text-blue-600 whitespace-nowrap" : "text-gray-800 whitespace-nowrap"
                     )}>
                       {item.name}
                     </span>

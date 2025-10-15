@@ -12,6 +12,10 @@ export default {
   			sm: 'calc(var(--radius) - 4px)'
   		},
   		colors: {
+			 buttonblue: {
+    DEFAULT: "#387ED1",
+    hover: "#2E65AD",
+  },
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {
@@ -61,7 +65,8 @@ export default {
   				'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
   				border: 'hsl(var(--sidebar-border))',
   				ring: 'hsl(var(--sidebar-ring))'
-  			}
+  			},
+			
   		}
   	}
   },

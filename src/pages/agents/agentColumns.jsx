@@ -58,7 +58,8 @@ export const getAgentColumns = (handleDelete, handleEdit, handlepreview) => [
             e.stopPropagation();
             handleEdit(row.original);
           }}
-          className="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600"
+          className="bg-buttonblue hover:bg-buttonblue-hover
+ text-white px-2 py-1 rounded "
         >
           <FaEdit size={16} />
         </TooltipButton>

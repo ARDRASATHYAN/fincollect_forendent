@@ -18,7 +18,7 @@ export default function BankList() {
   const [bankToDelete, setBankToDelete] = useState(null);
   const [confirmOpen, setConfirmOpen] = useState(false);
 
-   const { success, error: showError } = useToast();
+  const { success, error: showError } = useToast();
 
   const fetchBanks = async () => {
     try {
@@ -39,10 +39,10 @@ export default function BankList() {
     try {
       if (editingBankId) {
         await updateBank(editingBankId, data);
-         success("Bank updated successfully!");
+        success("Bank updated successfully!");
       } else {
         await createBank(data);
-         success("New bank added successfully!");
+        success("New bank added successfully!");
       }
       setEditingBankId(null);
       setModalOpen(false);
@@ -66,7 +66,7 @@ export default function BankList() {
   const handleConfirmDelete = async () => {
     try {
       await deleteBank(bankToDelete);
-       success("Bank deleted successfully!");
+      success("Bank deleted successfully!");
       fetchBanks();
     } catch (error) {
       console.error(error);
@@ -92,7 +92,8 @@ export default function BankList() {
           <h1 className="text-2xl font-bold">Bank List</h1>
           <button
             onClick={handleAdd}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow-md transition"
+            className="bg-buttonblue hover:bg-buttonblue-hover
+ text-white px-4 py-2 rounded-lg shadow-md transition"
           >
             + Add
           </button>
@@ -114,12 +115,12 @@ export default function BankList() {
           <DataTable
             columns={columns}
             data={banks}
-           
+
           />
         </div>
 
         {/* Optional Confirm Delete Modal */}
-         <ConfirmAlert
+        <ConfirmAlert
           isOpen={confirmOpen}
           title="Delete Bank"
           message={

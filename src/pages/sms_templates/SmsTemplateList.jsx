@@ -120,7 +120,7 @@ export default function SmsTemplateList() {
     setSearchTerm("");
   };
 
-  const filters = getSmsTemplateFilters(banks, smstemplates);
+  const filters = getSmsTemplateFilters(banks);
   const columns = getsmstemplateColumns(handleDeleteClick, handleEdit);
 
   return (
@@ -131,7 +131,8 @@ export default function SmsTemplateList() {
           <h1 className="text-2xl font-bold">SMS Template List</h1>
           <button
             onClick={handleAdd}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow-md transition"
+            className="bg-buttonblue hover:bg-buttonblue-hover
+ text-white px-4 py-2 rounded-lg shadow-md transition"
           >
             + Add
           </button>

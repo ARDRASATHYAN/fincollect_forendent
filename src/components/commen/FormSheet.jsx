@@ -40,7 +40,8 @@ export default function UserSheet({
           </button>
           <button
             onClick={onSave}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md"
+            className="bg-buttonblue hover:bg-buttonblue-hover
+ text-white px-4 py-2 rounded-md"
           >
             {saveLabel}
           </button>

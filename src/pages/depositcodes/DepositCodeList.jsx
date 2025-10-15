@@ -117,7 +117,7 @@ export default function DepositCodeList() {
     setSelectedCode("");
   };
 
-  const filters = getDepositCodeFilters(banks, depositcode);
+  const filters = getDepositCodeFilters(banks);
   const columns = getdepositcodeColumns(handleDeleteClick, handleEdit);
 
   return (
@@ -128,7 +128,8 @@ export default function DepositCodeList() {
           <h1 className="text-2xl font-bold">DepositCode List</h1>
           <button
             onClick={handleAdd}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow-md transition"
+            className="bg-buttonblue hover:bg-buttonblue-hover
+ text-white px-4 py-2 rounded-lg shadow-md transition"
           >
             + Add
           </button>

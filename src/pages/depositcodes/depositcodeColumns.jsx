@@ -37,7 +37,8 @@ export const getdepositcodeColumns = (handleDelete, handleEdit) => [
         <TooltipButton
           label="Edit DepositCode"
           onClick={() => handleEdit(row.original)}
-          className="px-2 py-1 bg-blue-600 text-white rounded"
+          className="px-2 py-1 bg-buttonblue hover:bg-buttonblue-hover
+ text-white rounded"
         >
           <FaEdit size={16} />
         </TooltipButton>

@@ -7,38 +7,36 @@ import { GrTransaction } from "react-icons/gr";
 import { MdSettingsBackupRestore } from "react-icons/md";
 
 
-const AgentActionDropdown = ({ data, onPreview, onEdit, onDelete,onTransactions }) => {
+const AgentActionDropdown = ({ data, onPreview, onEdit, onDelete, onTransactions,onRestore }) => {
   const actions = [
     {
       group: "General",
       items: [
         { label: "Preview Agent", value: "preview", icon: FaEye },
-       { label: "View Transactions", value: "transactions", icon: GrTransaction }
-
+        { label: "View Transactions", value: "transactions", icon: GrTransaction }
       ],
     },
-     {
+    {
       group: "Action",
       items: [
         { label: "Edit Agent", value: "edit", icon: FaEdit },
-         { label: "Restore Transaction", icon: MdSettingsBackupRestore },
+        { label: "Restore Transaction", value: "restore", icon: MdSettingsBackupRestore }, // <-- add value
       ],
     },
     {
       group: "Danger Zone",
-      items: [ 
+      items: [
         {
-        label: "more…",
-        submenu: [
-          { label: "Delete Agent", value: "delete", icon: FaTrashCan, destructive: true },
-         
-        ],
-      },
+          label: "more…",
+          submenu: [
+            { label: "Delete Agent", value: "delete", icon: FaTrashCan, destructive: true },
+          ],
+        },
       ],
     },
   ];
 
-  const handleAction = (value) => {
+  const handleAction = async (value) => {  // <-- make async
     switch (value) {
       case "preview":
         onPreview?.(data);
@@ -46,10 +44,12 @@ const AgentActionDropdown = ({ data, onPreview, onEdit, onDelete,onTransactions 
       case "edit":
         onEdit?.(data);
         break;
-        case "transactions":
-          console.log("🟢 View Transactions clicked for:", data);
-      onTransactions?.(data); 
-      break;
+      case "transactions":
+        onTransactions?.(data);
+        break;
+      case "restore":
+  onRestore?.(data); // now this will call the updated async function
+  break;
       case "delete":
         onDelete?.(data.id);
         break;
@@ -71,5 +71,4 @@ const AgentActionDropdown = ({ data, onPreview, onEdit, onDelete,onTransactions 
     </div>
   );
 };
-
 export default AgentActionDropdown;

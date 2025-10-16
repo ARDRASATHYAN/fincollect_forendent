@@ -17,6 +17,7 @@ import { getBanks } from "@/apiservices/bankApi";
 import useToast from "@/hooks/useToast";
 import { getAgentFilters } from "./agentFilters";
 import TransactionDialog from "./transaction/TransactionDialog";
+import { restoreTransaction } from "@/apiservices/transactionApi";
 
 export default function AgentList() {
   const { success, error: showError } = useToast();
@@ -138,9 +139,20 @@ export default function AgentList() {
     setSelectedAgent(agent);
     setTransactionDialogOpen(true);
   };
+const handleRestoreTransactions = async (agent) => {
+  try {
+    const result = await restoreTransaction(agent.bid, agent.id);
+    success(result.message);  // success toast
+    fetchAgents();            // refresh table
+  } catch (err) {
+    console.error(err);
+    showError(err);           // useToast will read err.message
+  }
+};
+
 
   // Inject handler into columns
-  const columns = getAgentColumns(handleDeleteClick, handleEdit, handlePreview, handleViewTransactions);
+  const columns = getAgentColumns(handleDeleteClick, handleEdit, handlePreview, handleViewTransactions,handleRestoreTransactions);
 
 
   // ✅ Inject preview and edit handlers into columns

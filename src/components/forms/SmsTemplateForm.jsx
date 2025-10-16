@@ -136,17 +136,19 @@ export default function SmsTemplateFormSheet({ agent = null, onSubmit, isOpen, o
 
   {/* Message */}
   <div className="flex flex-col">
-    <Label htmlFor="msg">Message</Label>
-    <Input
-      id="msg"
-      {...register("msg")}
-      placeholder="Enter message"
-      className="mt-2"
-    />
-    {errors.msg && (
-      <p className="text-red-500 text-sm mt-1">{errors.msg.message}</p>
-    )}
-  </div>
+  <Label htmlFor="msg">Message</Label>
+  <textarea
+    id="msg"
+    {...register("msg")}
+    placeholder="Enter message"
+    className="mt-2 border border-gray-300 rounded p-2 resize-y focus:outline-none focus:ring-2 focus:ring-black"
+    rows={4} // default number of visible lines
+  />
+  {errors.msg && (
+    <p className="text-red-500 text-sm mt-1">{errors.msg.message}</p>
+  )}
+</div>
+
 </form>
 
 

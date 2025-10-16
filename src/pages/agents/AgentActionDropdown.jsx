@@ -7,13 +7,14 @@ import { GrTransaction } from "react-icons/gr";
 import { MdSettingsBackupRestore } from "react-icons/md";
 
 
-const AgentActionDropdown = ({ data, onPreview, onEdit, onDelete }) => {
+const AgentActionDropdown = ({ data, onPreview, onEdit, onDelete,onTransactions }) => {
   const actions = [
     {
       group: "General",
       items: [
         { label: "Preview Agent", value: "preview", icon: FaEye },
-        { label: "View Transactons",  icon: GrTransaction },
+       { label: "View Transactions", value: "transactions", icon: GrTransaction }
+
       ],
     },
      {
@@ -45,6 +46,10 @@ const AgentActionDropdown = ({ data, onPreview, onEdit, onDelete }) => {
       case "edit":
         onEdit?.(data);
         break;
+        case "transactions":
+          console.log("🟢 View Transactions clicked for:", data);
+      onTransactions?.(data); 
+      break;
       case "delete":
         onDelete?.(data.id);
         break;

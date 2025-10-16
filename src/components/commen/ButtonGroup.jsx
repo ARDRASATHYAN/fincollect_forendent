@@ -33,19 +33,21 @@ export function ActionDropdown({ actions = [], onAction, className = "" }) {
 
       <DropdownMenuContent align="end" className="w-52">
         {actions.map((group, groupIndex) => (
-          <React.Fragment key={groupIndex}>
+          <React.Fragment key={`group-${groupIndex}`}>
             {groupIndex > 0 && <DropdownMenuSeparator />}
             <DropdownMenuGroup>
               {group.items.map((item, itemIndex) =>
                 item.submenu ? (
-                  <DropdownMenuSub key={itemIndex}>
+                  <DropdownMenuSub
+                    key={`group-${groupIndex}-item-${itemIndex}`}
+                  >
                     <DropdownMenuSubTrigger>
                       {item.icon && <item.icon />} {item.label}
                     </DropdownMenuSubTrigger>
                     <DropdownMenuSubContent>
                       {item.submenu.map((sub, subIndex) => (
                         <DropdownMenuItem
-                          key={subIndex}
+                          key={`group-${groupIndex}-item-${itemIndex}-sub-${subIndex}`}
                           onClick={() => onAction?.(sub.value)}
                           className={sub.destructive ? "text-red-600" : ""}
                         >
@@ -56,7 +58,7 @@ export function ActionDropdown({ actions = [], onAction, className = "" }) {
                   </DropdownMenuSub>
                 ) : (
                   <DropdownMenuItem
-                    key={itemIndex}
+                    key={`group-${groupIndex}-item-${itemIndex}`}
                     onClick={() => onAction?.(item.value)}
                     className={item.destructive ? "text-red-600" : ""}
                   >

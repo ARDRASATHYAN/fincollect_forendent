@@ -16,6 +16,7 @@ import {
 import { getBanks } from "@/apiservices/bankApi";
 import useToast from "@/hooks/useToast";
 import { getAgentFilters } from "./agentFilters";
+import TransactionDialog from "./transaction/TransactionDialog";
 
 export default function AgentList() {
   const { success, error: showError } = useToast();
@@ -129,9 +130,21 @@ export default function AgentList() {
   };
 
   const filters = getAgentFilters(banks);
+  const [transactionDialogOpen, setTransactionDialogOpen] = useState(false);
+  const [selectedAgent, setSelectedAgent] = useState(null);
+
+
+  const handleViewTransactions = (agent) => {
+    setSelectedAgent(agent);
+    setTransactionDialogOpen(true);
+  };
+
+  // Inject handler into columns
+  const columns = getAgentColumns(handleDeleteClick, handleEdit, handlePreview, handleViewTransactions);
+
 
   // ✅ Inject preview and edit handlers into columns
-  const columns = getAgentColumns(handleDeleteClick, handleEdit, handlePreview);
+  // const columns = getAgentColumns(handleDeleteClick, handleEdit, handlePreview);
 
   return (
     <div className="p-0">
@@ -188,6 +201,17 @@ export default function AgentList() {
             <DataTable columns={columns} data={agents} />
           )}
         </div>
+        {selectedAgent && (
+          <TransactionDialog
+            open={transactionDialogOpen}
+            onOpenChange={setTransactionDialogOpen}
+            agentId={selectedAgent.id}
+            bid={selectedAgent.bid}
+          />
+        )}
+
+
+
 
         {/* Delete Confirmation */}
         <ConfirmAlert

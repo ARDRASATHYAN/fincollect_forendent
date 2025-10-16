@@ -3,7 +3,7 @@ import AgentActionDropdown from "./AgentActionDropdown";
 
 
 
-export const getAgentColumns = (handleDelete, handleEdit, handlepreview) => [
+export const getAgentColumns = (handleDelete, handleEdit, handlepreview,handleViewTransactions) => [
   {
     header: "ID",
     accessorKey: "id",
@@ -42,6 +42,7 @@ export const getAgentColumns = (handleDelete, handleEdit, handlepreview) => [
         onPreview={handlepreview}
         onEdit={handleEdit}
         onDelete={handleDelete}
+         onTransactions={handleViewTransactions}
       />
     ),
   },

@@ -1,4 +1,6 @@
 import { formatDateTime } from "@/lib/formatDateTime";
+import BankActionDropdown from "../banks/BankActionDropDown";
+import UserActionDropdown from "./UserActionDropdown";
 
 
 export const getuserColumns =(handleDelete, handleEdit) => [
@@ -33,27 +35,15 @@ export const getuserColumns =(handleDelete, handleEdit) => [
     accessorKey: "updated_at",
     cell: ({ row }) => row.original.updated_at ? formatDateTime(row.original.updated_at) : "-"
   },
-  {
+   {
     header: "Actions",
-    accessorKey: "actions",
+    id: "actions",
     cell: ({ row }) => (
-      <div className="flex gap-2">
-       <button
-          onClick={() => handleDelete(row.original)}
-          className="px-2 py-1 bg-red-600 text-white rounded"
-        >
-          Delete
-        </button>
-
-        <button
-          onClick={() => handleEdit(row.original)}
-
-          className="px-2 py-1 bg-buttonblue hover:bg-buttonblue-hover
- text-white rounded"
-        >
-          Edit
-        </button>
-      </div>
+      <UserActionDropdown
+        data={row.original}
+        onEdit={handleEdit}
+        onDelete={handleDelete}
+      />
     ),
   },
   

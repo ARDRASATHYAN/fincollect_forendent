@@ -40,7 +40,7 @@ export default function Combobox({ options = [], value, onValueChange, placehold
           <PiCaretUpDownLight className="opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-44 p-0">
+      <PopoverContent className="w-[500px] p-0">
         <Command>
           <CommandInput
             placeholder="Type to search..."

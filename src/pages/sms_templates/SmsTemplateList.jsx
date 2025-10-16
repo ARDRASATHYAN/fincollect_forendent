@@ -1,16 +1,24 @@
 "use client";
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 import Sidebar from "@/components/commen/SideBar";
 import DataTable from "@/components/commen/Table";
 import ControlPanel from "@/components/commen/ControlPanel";
 import ConfirmAlert from "@/components/commen/ConfirmAlert";
+import SmsTemplateFormSheet from "@/components/forms/SmsTemplateForm";
 import { getBanks } from "@/apiservices/bankApi";
 import useToast from "@/hooks/useToast";
-
-import SmsTemplateFormSheet from "@/components/forms/SmsTemplateForm";
 import { getsmstemplateColumns } from "./smstemplateColumns";
 import { getSmsTemplateFilters } from "./smstemplateFilters";
-import { addSmsTemplate, deleteSmsTemplate, fetchSmsTemplates, updateSmsTemplate } from "@/apiservices/sms_templateApi";
+import {
+  addSmsTemplate,
+  deleteSmsTemplate,
+  fetchSmsTemplates,
+  updateSmsTemplate,
+} from "@/apiservices/sms_templateApi";
+
+
+
+
 
 export default function SmsTemplateList() {
   const { success, error: showError } = useToast();
@@ -29,15 +37,19 @@ export default function SmsTemplateList() {
 
   // Fetch banks for filters
   useEffect(() => {
-    getBanks()
-      .then(setBanks)
-      .catch(showError);
+    getBanks().then(setBanks).catch(showError);
+  }, []);
+
+  // Auto-load from URL query ?bid=
+  useEffect(() => {
+    const bidFromUrl = new URLSearchParams(window.location.search).get("bid");
+    if (bidFromUrl) setSelectedBankId(bidFromUrl);
   }, []);
 
   // Fetch SMS templates only if bank is selected
   const fetchTemplates = useCallback(async () => {
     if (!selectedBankId) {
-      setSmstemplates([]); // clear table if no bank selected
+      setSmstemplates([]);
       return;
     }
     try {
@@ -51,13 +63,16 @@ export default function SmsTemplateList() {
       console.error(err);
       showError(err);
     }
-  }, [selectedBankId, selectedCode, searchTerm, showError]);
+  }, [selectedBankId, selectedCode, searchTerm]);
 
   // Debounce search & filters
   useEffect(() => {
-    const timer = setTimeout(fetchTemplates, 400);
+    if (!selectedBankId) return;
+    const timer = setTimeout(() => {
+      fetchTemplates();
+    }, 400);
     return () => clearTimeout(timer);
-  }, [fetchTemplates]);
+  }, [fetchTemplates, selectedBankId]);
 
   // Add/Edit Modal handlers
   const handleAdd = () => {
@@ -108,7 +123,7 @@ export default function SmsTemplateList() {
     }
   };
 
-  // Filters handlers
+  // Filters
   const handleFilterChange = (name, option) => {
     if (name === "Bank") setSelectedBankId(option?.id || null);
     if (name === "Tname") setSelectedCode(option?.id || null);
@@ -131,8 +146,7 @@ export default function SmsTemplateList() {
           <h1 className="text-2xl font-bold">SMS Template List</h1>
           <button
             onClick={handleAdd}
-            className="bg-buttonblue hover:bg-buttonblue-hover
- text-white px-4 py-2 rounded-lg shadow-md transition"
+            className="bg-buttonblue hover:bg-buttonblue-hover text-white px-4 py-2 rounded-lg shadow-md transition"
           >
             + Add
           </button>
@@ -162,9 +176,11 @@ export default function SmsTemplateList() {
           {selectedBankId ? (
             <DataTable columns={columns} data={smstemplates} />
           ) : (
-           <div className="flex justify-center items-center h-64">
-  <p className="text-gray-500 text-lg">Please select a bank to see Sms template data.</p>
-</div>
+            <div className="flex justify-center items-center h-64">
+              <p className="text-gray-500 text-lg">
+                Please select a bank to see SMS template data.
+              </p>
+            </div>
           )}
         </div>
 

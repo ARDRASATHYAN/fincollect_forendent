@@ -28,9 +28,9 @@ const AgentActionDropdown = ({ data, onPreview, onEdit, onDelete, onTransactions
       items: [
         {
           label: "more…",
-          // submenu: [
-          //   { label: "Delete Agent", value: "delete", icon: FaTrashCan, destructive: true },
-          // ],
+          submenu: [
+            { label: "Delete Agent", value: "delete", icon: FaTrashCan, destructive: true },
+          ],
         },
       ],
     },

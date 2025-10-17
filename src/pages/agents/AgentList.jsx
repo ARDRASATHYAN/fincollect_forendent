@@ -74,23 +74,35 @@ export default function AgentList() {
     setFormOpen(true);
   };
 
-  const handleAddOrEdit = async (data) => {
-    try {
-      if (editingAgent) {
-        await updateAgent(editingAgent.bid, editingAgent.id, data);
-        success("Agent updated successfully!");
-      } else {
-        await createAgent(data);
-        success("New agent added successfully!");
-      }
-      setEditingAgent(null);
+ const handleAddOrEdit = async (data) => {
+  try {
+    if (editingAgent) {
+      // Edit mode → update agent
+      await updateAgent(editingAgent.bid, editingAgent.id, data);
+      success("Agent updated successfully!");
+      // Close sheet in edit mode
       setFormOpen(false);
-      fetchAgents();
-    } catch (err) {
-      console.error(err);
-      showError(err);
+      setEditingAgent(null);
+    } else {
+      // Add mode → create new agent
+      await createAgent(data);
+      success("New agent added successfully!");
+      // Keep sheet open → reset form but preserve bank
+      const currentBank = selectedBankId;
+      setEditingAgent(null);
+      setFormOpen(true); 
+      fetchAgents();    
     }
-  };
+
+    // Refresh agents list in both cases
+    fetchAgents();
+
+  } catch (err) {
+    console.error(err);
+    showError(err);
+  }
+};
+
 
   // Preview
   const handlePreview = (agent) => {

@@ -31,7 +31,6 @@ const validationSchema = yup.object().shape({
 });
 
 const defaultValues = {
-  bid: "",
   branch: "",
   mobile: "",
   id: "",
@@ -60,8 +59,12 @@ export default function AgentFormSheet({ agent = null, onSubmit, isOpen, onOpen,
   });
 
   // Fetch banks
-  useEffect(() => {
+  const fetchBanks = () => {
     getBanks().then(setBanks).catch(console.error);
+  };
+
+  useEffect(() => {
+    fetchBanks();
   }, []);
 
   // Load agent for edit
@@ -74,18 +77,30 @@ export default function AgentFormSheet({ agent = null, onSubmit, isOpen, onOpen,
     } else {
       reset(defaultValues);
       setIsEditing(false);
-      setShowDetails(false); // Hide extra details in add mode
+      setShowDetails(false); // Hide additional details by default in Add mode
     }
   }, [agent, reset, setValue]);
 
-  const handleSave = (data) => {
-    onSubmit?.(data);
-    reset(defaultValues);
-    onClose?.();
+  // Handle Save: keep sheet open and refresh only non-bank fields
+  const handleSave = async (data) => {
+    try {
+      await onSubmit?.(data);
+
+      // Refresh other fields to default values, keep bank selected
+      const currentBank = watch("bid"); 
+      reset({ ...defaultValues, bid: currentBank });
+
+      // Hide additional details in Add mode
+      if (!isEditing) setShowDetails(false);
+
+    } catch (err) {
+      console.error("Failed to save agent:", err);
+    }
   };
 
   const handleCancel = () => {
     reset(defaultValues);
+    if (!isEditing) setShowDetails(false);
     onClose?.();
   };
 

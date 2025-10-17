@@ -68,23 +68,25 @@ export default function DepositCodeList() {
     setModalOpen(true);
   };
 
-  const handleAddOrEdit = async (data) => {
-    try {
-      if (editdpcode) {
-        await updateDepositCode(editdpcode.bid, editdpcode.code, data);
-        success("DepositCode updated successfully!");
-      } else {
-        await addDepositCode(data);
-        success("New DepositCode added successfully!");
-      }
-      setEditDpCode(null);
-      setModalOpen(false);
-      fetchData();
-    } catch (err) {
-      console.error(err);
-      showError(err);
+ const handleAddOrEdit = async (data) => {
+  try {
+    if (editdpcode) {
+      await updateDepositCode(editdpcode.bid, editdpcode.code, data);
+      success("DepositCode updated successfully!");
+      setModalOpen(false); // close after edit
+    } else {
+      await addDepositCode(data);
+      success("New DepositCode added successfully!");
+      // Do NOT close modal; table will refresh
     }
-  };
+
+    fetchData(); // refresh table data
+  } catch (err) {
+    console.error(err);
+    showError(err);
+  }
+};
+
 
   // Delete handlers
   const handleDeleteClick = (bid, code) => {

@@ -83,7 +83,7 @@ export default function UserForm({ user = null, onSubmit, isOpen, onOpen, onClos
         {/* ID (disabled on edit) */}
 
 
- <div className="flex flex-col">
+ {/* <div className="flex flex-col">
   <Label htmlFor="tid">ID</Label>
 
         <Input
@@ -93,7 +93,7 @@ export default function UserForm({ user = null, onSubmit, isOpen, onOpen, onClos
           className={isEditing ? "bg-gray-100 cursor-not-allowed" : " mt-2"}
         />
         {errors.id && <p className="text-red-500 text-sm">{errors.id.message}</p>}
-         </div>
+         </div> */}
 
         <div className="flex flex-col">
            <Label htmlFor="tid">Name</Label>

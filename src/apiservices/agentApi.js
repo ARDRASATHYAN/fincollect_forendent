@@ -22,8 +22,15 @@ export const getAgentById = async (bid, id) => {
 
 // Add a new agent
 export const createAgent = async (data) => {
-  const res = await apiClient.post("/agent", data);
+  try{
+const res = await apiClient.post("/agent", data);
   return res.data;
+  
+  } catch (err) {
+   
+    throw new Error(err.response?.data?.error || "agent creation failed");
+  }
+  
 };
 
 // Update an existing agent

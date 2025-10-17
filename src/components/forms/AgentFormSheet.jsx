@@ -29,25 +29,22 @@ const validationSchema = yup.object().shape({
   mname: yup.string().nullable(),
   status: yup.string().required("status is required."),
 
-  pwd: yup.string().required("Password is required."),
-  pin: yup.string().required("PIN is required."),
+  pwd: yup.string(),
+  pin: yup.string(),
 
-  pwd_expiry_days: yup
-    .number()
-    .typeError("pwd_expiry_days must be a number.")
-    .required("pwd_expiry_days is required."),
+  pwd_expiry_days: yup.string(),
+    // .typeError("pwd_expiry_days must be a number.")
+    // .required("pwd_expiry_days is required."),
    
 
-  pwdloginattempt: yup
-    .number()
-    .typeError("pwdloginattempt must be a number.")
-    .required("pwdloginattempt is required."),
+  pwdloginattempt:yup.string(),
+    // .typeError("pwdloginattempt must be a number.")
+    // .required("pwdloginattempt is required."),
 
 
-  pinloginattempt: yup
-    .number()
-    .typeError("pinloginattempt must be a number.")
-    .required("pinloginattempt is required."),
+  pinloginattempt:yup.string(),
+    // .typeError("pinloginattempt must be a number.")
+    // .required("pinloginattempt is required."),
 
 
   enabled: yup.boolean(),

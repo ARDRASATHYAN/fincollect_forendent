@@ -7,7 +7,7 @@ import { GrTransaction } from "react-icons/gr";
 import { MdSettingsBackupRestore } from "react-icons/md";
 
 
-const AgentActionDropdown = ({ data, onPreview, onEdit, onDelete, onTransactions,onRestore }) => {
+const AgentActionDropdown = ({ data, onPreview, onEdit, onDelete, onTransactions,onRestore,className }) => {
   const actions = [
     {
       group: "General",
@@ -28,15 +28,15 @@ const AgentActionDropdown = ({ data, onPreview, onEdit, onDelete, onTransactions
       items: [
         {
           label: "more…",
-          submenu: [
-            { label: "Delete Agent", value: "delete", icon: FaTrashCan, destructive: true },
-          ],
+          // submenu: [
+          //   { label: "Delete Agent", value: "delete", icon: FaTrashCan, destructive: true },
+          // ],
         },
       ],
     },
   ];
 
-  const handleAction = async (value) => {  // <-- make async
+  const handleAction = async (value) => {  
     switch (value) {
       case "preview":
         onPreview?.(data);
@@ -48,7 +48,7 @@ const AgentActionDropdown = ({ data, onPreview, onEdit, onDelete, onTransactions
         onTransactions?.(data);
         break;
       case "restore":
-  onRestore?.(data); // now this will call the updated async function
+  onRestore?.(data); 
   break;
       case "delete":
         onDelete?.(data.id);

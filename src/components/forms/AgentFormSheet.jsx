@@ -72,27 +72,28 @@ export default function AgentFormSheet({ agent = null, onSubmit, isOpen, onOpen,
     if (agent) {
       setIsEditing(true);
       reset(agent);
-      setShowDetails(true); // Show all details in edit mode
+      setShowDetails(true);
       if (agent.bid) setValue("bid", agent.bid);
     } else {
       reset(defaultValues);
       setIsEditing(false);
-      setShowDetails(false); // Hide additional details by default in Add mode
+      setShowDetails(false);
     }
   }, [agent, reset, setValue]);
 
-  // Handle Save: keep sheet open and refresh only non-bank fields
+  //  Ensure mname = name if empty before sending to backend
   const handleSave = async (data) => {
     try {
+      if (!data.mname || data.mname.trim() === "") {
+        data.mname = data.name; 
+      }
+
       await onSubmit?.(data);
 
-      // Refresh other fields to default values, keep bank selected
-      const currentBank = watch("bid"); 
+      const currentBank = watch("bid");
       reset({ ...defaultValues, bid: currentBank });
 
-      // Hide additional details in Add mode
       if (!isEditing) setShowDetails(false);
-
     } catch (err) {
       console.error("Failed to save agent:", err);
     }
@@ -114,7 +115,6 @@ export default function AgentFormSheet({ agent = null, onSubmit, isOpen, onOpen,
       onCancel={handleCancel}
     >
       <form className="space-y-4">
-        {/* Always visible fields */}
         <div>
           <Label>Bank</Label>
           <Select value={watch("bid")} onValueChange={(val) => setValue("bid", val)} disabled={isEditing}>
@@ -123,7 +123,9 @@ export default function AgentFormSheet({ agent = null, onSubmit, isOpen, onOpen,
             </SelectTrigger>
             <SelectContent className="h-[200px]">
               {banks.map((bank) => (
-                <SelectItem key={bank.id} value={bank.id}>{bank.name}</SelectItem>
+                <SelectItem key={bank.id} value={bank.id}>
+                  {bank.name}
+                </SelectItem>
               ))}
             </SelectContent>
           </Select>
@@ -149,8 +151,8 @@ export default function AgentFormSheet({ agent = null, onSubmit, isOpen, onOpen,
         </div>
 
         <div>
-          <Label>Middle Name</Label>
-          <Input {...register("mname")} placeholder="Enter middle name" />
+          <Label>Name in Malayalam</Label>
+          <Input {...register("mname")} placeholder="Name in Malayalam" />
         </div>
 
         <div>
@@ -159,7 +161,6 @@ export default function AgentFormSheet({ agent = null, onSubmit, isOpen, onOpen,
           {errors.mobile && <p className="text-red-500 text-sm">{errors.mobile.message}</p>}
         </div>
 
-        {/* Toggle button for Add mode only */}
         {!isEditing && (
           <button
             type="button"
@@ -170,7 +171,6 @@ export default function AgentFormSheet({ agent = null, onSubmit, isOpen, onOpen,
           </button>
         )}
 
-        {/* Hidden/Additional details */}
         {showDetails && (
           <>
             <div className="flex flex-col">
@@ -212,7 +212,6 @@ export default function AgentFormSheet({ agent = null, onSubmit, isOpen, onOpen,
               <Input type="text" {...register("pwdloginattempt")} placeholder="Enter password login attempt" />
             </div>
 
-            {/* Toggles */}
             <div className="flex items-center justify-between">
               <Label>Enabled</Label>
               <Switch checked={watch("enabled")} onCheckedChange={(val) => setValue("enabled", val)} />

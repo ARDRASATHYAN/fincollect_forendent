@@ -12,7 +12,7 @@ const AgentActionDropdown = ({ data, onPreview, onEdit, onDelete, onTransactions
     {
       group: "General",
       items: [
-        { label: "Preview Agent", value: "preview", icon: FaEye },
+        { label: "Agent Details", value: "preview", icon: FaEye },
         { label: "View Transactions", value: "transactions", icon: GrTransaction }
       ],
     },

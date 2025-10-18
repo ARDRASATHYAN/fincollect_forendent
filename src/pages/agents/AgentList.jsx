@@ -231,6 +231,7 @@ const handleRestoreTransactions = async (agent) => {
             onOpenChange={setTransactionDialogOpen}
             agentId={selectedAgent.id}
             bid={selectedAgent.bid}
+            agentName={selectedAgent.name}
           />
         )}
 

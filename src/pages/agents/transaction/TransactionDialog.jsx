@@ -5,7 +5,7 @@ import DataTable from "@/components/commen/Table";
 import { getTransactionColumns } from "./transactionColumns";
 import { getTransactionsByAgent } from "@/apiservices/transactionApi";
 
-export default function TransactionDialog({ agentId, bid, open, onOpenChange }) {
+export default function TransactionDialog({ agentId, bid, open, onOpenChange,agentName }) {
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(false);
   const columns = getTransactionColumns();
@@ -29,7 +29,7 @@ export default function TransactionDialog({ agentId, bid, open, onOpenChange }) 
   }, [open, agentId, bid]);
 
   return (
-    <ReusableDialog title="Transactions" open={open} onOpenChange={onOpenChange} fullWidth>
+    <ReusableDialog title={` TRANSACTIONS : ${agentName}`} open={open} onOpenChange={onOpenChange} fullWidth>
       {loading ? (
         <p>Loading...</p>
       ) : transactions.length ? (

@@ -1,3 +1,4 @@
+import { formatDateTime } from "@/lib/formatDateTime";
 
 
 export const getTransactionColumns = () => [
@@ -9,10 +10,11 @@ export const getTransactionColumns = () => [
     header: "id",
     accessorKey: "id",
   },
-  {
-    header: "transaction date",
-    accessorKey: "tdate",
-  },
+ {
+  header: "Transaction Date",
+  accessorFn: (row) => formatDateTime(row.tdate),
+},
+
   {
     header: "rno",
     accessorKey: "rno",
@@ -39,7 +41,7 @@ export const getTransactionColumns = () => [
   },
    {
     header: "txn_timestamp",
-    accessorKey: "txn_timestamp",
+    accessorFn: (row) => formatDateTime(row.txn_timestamp),
   },
 //   {
 //     header: "Actions",

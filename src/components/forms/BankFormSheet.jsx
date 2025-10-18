@@ -136,7 +136,7 @@ export default function BankFormSheet({ bankId = null, onSubmit, isOpen, onOpen,
         </div>
  <div className="flex flex-col">
    <Label htmlFor="times">SMS Password</Label>
-        <Input type="password" {...register("sms_pwd")} placeholder="SMS Password" className="mt-2" />
+        <Input type="text" {...register("sms_pwd")} placeholder="SMS Password" className="mt-2" />
         {errors.sms_pwd && <p className="text-red-500 text-sm">{errors.sms_pwd.message}</p>}
         </div>
  <div className="flex flex-col">

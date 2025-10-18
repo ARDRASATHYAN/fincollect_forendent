@@ -8,33 +8,41 @@ import { MdSettingsBackupRestore } from "react-icons/md";
 
 
 const AgentActionDropdown = ({ data, onPreview, onEdit, onDelete, onTransactions,onRestore,className }) => {
+
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
+const isAdmin = user.role === "admin";
+  
   const actions = [
     {
       group: "General",
       items: [
         { label: "Agent Details", value: "preview", icon: FaEye },
-        { label: "View Transactions", value: "transactions", icon: GrTransaction }
+        { label: "View Transactions", value: "transactions", icon: GrTransaction },
       ],
     },
     {
       group: "Action",
       items: [
         { label: "Edit Agent", value: "edit", icon: FaEdit },
-        { label: "Restore Transaction", value: "restore", icon: MdSettingsBackupRestore }, // <-- add value
-      ],
-    },
-    {
-      group: "Danger Zone",
-      items: [
-        {
-          label: "more…",
-          submenu: [
-            { label: "Delete Agent", value: "delete", icon: FaTrashCan, destructive: true },
-          ],
-        },
+        { label: "Restore Transaction", value: "restore", icon: MdSettingsBackupRestore },
       ],
     },
   ];
+
+  // Conditionally add Danger Zone for admin
+  if (isAdmin) {
+  actions.push({
+    group: "Danger Zone",
+    items: [
+      {
+        label: "more…",
+        submenu: [
+          { label: "Delete Agent", value: "delete", icon: FaTrashCan, destructive: true },
+        ],
+      },
+    ],
+  });
+}
 
   const handleAction = async (value) => {  
     switch (value) {

@@ -44,9 +44,15 @@ export default function SmsTemplateFormSheet({ agent = null, onSubmit, isOpen, o
 useEffect(() => {
   const tname = watch("tname");
   const bid = watch("bid");
+  const currentMsg = watch("msg"); // get current value
   const selectedBank = banks.find((b) => b.id === bid)?.name || "";
 
   if (!tname) return;
+
+  // Only auto-fill if msg is empty or unchanged from default auto-fill
+  const isMsgEmpty = !currentMsg || currentMsg === "";
+
+  if (!isMsgEmpty && isEditing) return; // skip auto-fill if editing and msg exists
 
   let autoMsg = "";
   if (tname === "PAY") {
@@ -58,7 +64,8 @@ useEffect(() => {
   }
 
   setValue("msg", autoMsg);
-}, [watch("tname"), watch("bid"), banks, setValue]);
+}, [watch("tname"), watch("bid"), banks, setValue, watch("msg"), isEditing]);
+
 
  
    // Load agent for edit

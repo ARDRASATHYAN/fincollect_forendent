@@ -71,7 +71,15 @@ export default function AgentFormSheet({ agent = null, onSubmit, isOpen, onOpen,
   useEffect(() => {
     if (agent) {
       setIsEditing(true);
-      reset(agent);
+      
+      const { pwd, pin, ...rest } = agent;
+
+    reset({
+      ...defaultValues,
+      ...rest,
+      pwd: "", // leave blank in edit mode
+      pin: "", // leave blank in edit mode
+    });
       setShowDetails(true);
       if (agent.bid) setValue("bid", agent.bid);
     } else {

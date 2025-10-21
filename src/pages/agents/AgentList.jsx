@@ -175,7 +175,7 @@ const handleRestoreTransactions = async (agent) => {
       <Sidebar>
         {/* Header */}
         <div className="flex items-center justify-between mb-2">
-          <h1 className="text-2xl font-bold">Agent List</h1>
+          <h1 className="text-2xl font-bold sm:ml-0 ml-12">Agent List</h1>
           <button
             onClick={handleAdd}
             className="bg-buttonblue hover:bg-buttonblue-hover

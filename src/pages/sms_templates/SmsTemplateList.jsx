@@ -144,7 +144,7 @@ export default function SmsTemplateList() {
       <Sidebar>
         {/* Header */}
         <div className="flex items-center justify-between mb-4">
-          <h1 className="text-2xl font-bold">SMS Template List</h1>
+          <h1 className="text-2xl font-bold sm:ml-0 ml-12">SMS Template List</h1>
           <button
             onClick={handleAdd}
             className="bg-buttonblue hover:bg-buttonblue-hover text-white px-4 py-2 rounded-lg shadow-md transition"

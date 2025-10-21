@@ -127,7 +127,7 @@ export default function DepositCodeList() {
       <Sidebar>
         {/* Header */}
         <div className="flex items-center justify-between mb-4">
-          <h1 className="text-2xl font-bold">DepositCode List</h1>
+           <h1 className="text-2xl font-bold sm:ml-0 ml-12">DepositCode List</h1>
           <button
             onClick={handleAdd}
             className="bg-buttonblue hover:bg-buttonblue-hover

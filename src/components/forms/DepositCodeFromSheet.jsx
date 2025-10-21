@@ -17,7 +17,7 @@ const validationSchema = yup.object().shape({
   description: yup.string().required("Description is required."),
   times: yup.string().required("Times is required."),
   multiples: yup.string().required("Multiples is required."),
-  Stmt_req: yup.string().nullable(),
+  Stmt_Req: yup.string(),
 });
 
 const defaultValues = {
@@ -26,7 +26,8 @@ const defaultValues = {
   description: "",
   times: "",
   multiples: "",
-  Stmt_req: "",
+  Stmt_Req: "",
+
 };
 
 export default function DepositCodeFormSheet({ agent = null, onSubmit, isOpen, onOpen, onClose }) {
@@ -150,16 +151,16 @@ export default function DepositCodeFormSheet({ agent = null, onSubmit, isOpen, o
           {errors.multiples && <p className="text-red-500 text-sm mt-1">{errors.multiples.message}</p>}
         </div>
 
-        {/* Stmt_req */}
+        {/* Stmt_Req */}
         <div className="flex flex-col">
-          <Label htmlFor="Stmt_req">Statement Required</Label>
+          <Label htmlFor="Stmt_Req">Statement Required</Label>
           <Input
-            id="Stmt_req"
-            {...register("Stmt_req")}
+            id="Stmt_Req"
+            {...register("Stmt_Req")}
             placeholder="Enter statement required"
             className="mt-2"
           />
-          {errors.Stmt_req && <p className="text-red-500 text-sm mt-1">{errors.Stmt_req.message}</p>}
+          {errors.Stmt_Req && <p className="text-red-500 text-sm mt-1">{errors.Stmt_Req.message}</p>}
         </div>
       </form>
     </UserSheet>

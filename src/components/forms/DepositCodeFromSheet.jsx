@@ -26,7 +26,7 @@ const defaultValues = {
   description: "",
   times: "",
   multiples: "",
-  Stmt_Req: "",
+  Stmt_Req: 0,
 
 };
 

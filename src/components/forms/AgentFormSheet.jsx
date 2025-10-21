@@ -71,7 +71,6 @@ export default function AgentFormSheet({ agent = null, onSubmit, isOpen, onOpen,
   useEffect(() => {
     if (agent) {
       setIsEditing(true);
-      
       const { pwd, pin, ...rest } = agent;
 
     reset({

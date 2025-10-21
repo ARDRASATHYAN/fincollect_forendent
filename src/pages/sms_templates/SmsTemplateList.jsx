@@ -90,12 +90,13 @@ export default function SmsTemplateList() {
       if (smstemplate) {
         await updateSmsTemplate(smstemplate.BID, smstemplate.TNAME, data);
         success("SMS Template updated successfully!");
+         setModalOpen(false);
       } else {
         await addSmsTemplate(data);
         success("New SMS Template added successfully!");
       }
       setSmstemplate(null);
-      setModalOpen(false);
+     
       fetchTemplates();
     } catch (err) {
       console.error(err);

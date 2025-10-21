@@ -59,8 +59,13 @@ export default function SmsTemplateFormSheet({ agent = null, onSubmit, isOpen, o
 
    const handleSave = (data) => {
      onSubmit?.(data);
-     reset(defaultValues);
-     onClose?.();
+    reset({
+    bid: watch("bid"), // keep current selected bank
+    tname: "",
+    tid: "",
+    msg: "",
+  });
+    //  onClose?.();
    };
  
    const handleCancel = () => {

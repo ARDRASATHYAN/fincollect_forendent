@@ -81,23 +81,33 @@ export default function AgentFormSheet({ agent = null, onSubmit, isOpen, onOpen,
     }
   }, [agent, reset, setValue]);
 
+   const editingAgent = agent;
+
   //  Ensure mname = name if empty before sending to backend
   const handleSave = async (data) => {
-    try {
-      if (!data.mname || data.mname.trim() === "") {
-        data.mname = data.name; 
-      }
-
-      await onSubmit?.(data);
-
-      const currentBank = watch("bid");
-      reset({ ...defaultValues, bid: currentBank });
-
-      if (!isEditing) setShowDetails(false);
-    } catch (err) {
-      console.error("Failed to save agent:", err);
+  try {
+    // Ensure mname = name if empty
+    if (!data.mname || data.mname.trim() === "") {
+      data.mname = data.name;
     }
-  };
+
+    // Only send pwd/pin if changed in edit mode
+    if (isEditing && editingAgent) {
+      if (data.pwd === editingAgent.pwd) delete data.pwd;
+      if (data.pin === editingAgent.pin) delete data.pin;
+    }
+
+    await onSubmit?.(data);
+
+    const currentBank = watch("bid");
+    reset({ ...defaultValues, bid: currentBank });
+
+    if (!isEditing) setShowDetails(false);
+  } catch (err) {
+    console.error("Failed to save agent:", err);
+  }
+};
+
 
   const handleCancel = () => {
     reset(defaultValues);

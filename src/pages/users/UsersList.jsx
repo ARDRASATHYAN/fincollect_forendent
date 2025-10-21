@@ -89,6 +89,16 @@ export default function UserList() {
   }
 };
 
+const filteredUsers = users.filter((user) => {
+  const term = searchTerm.toLowerCase();
+  return (
+    user.name?.toLowerCase().includes(term) ||
+    user.email?.toLowerCase().includes(term) ||
+    user.role?.toLowerCase().includes(term)
+  );
+});
+
+
 
   const handleFilterChange = (newFilters) => setFilters(newFilters);
   const handleClearFilters = () => setFilters({});
@@ -127,7 +137,7 @@ export default function UserList() {
             onFilterChange={handleFilterChange}
             onClearFilters={handleClearFilters}
           />
-          <DataTable columns={columns} data={users} />
+          <DataTable columns={columns} data={filteredUsers} />
         </div>
 
         <ConfirmAlert

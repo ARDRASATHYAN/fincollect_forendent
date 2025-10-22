@@ -4,6 +4,8 @@ import { FaEdit } from "react-icons/fa";
 import { FaTrashCan } from "react-icons/fa6";
 
 const SmsDeplateActionDropdown = ({ data, onEdit, onDelete }) => {
+    const user = JSON.parse(localStorage.getItem("user") || "{}");
+const isAdmin = user.role === "admin";
   const [open, setOpen] = useState(false);
   const ref = useRef();
 
@@ -12,13 +14,18 @@ const SmsDeplateActionDropdown = ({ data, onEdit, onDelete }) => {
       group: "General",
       items: [{ label: "Edit Sms Deplate", value: "edit", icon: FaEdit }],
     },
-    {
+    
+  ];
+
+  if (isAdmin) {
+        actions.push({ 
       group: "Danger Zone",
       items: [
         { label: "Delete Sms Deplate", value: "delete", icon: FaTrashCan, destructive: true },
-      ],
-    },
-  ];
+      ],  
+        });
+      }
+  
 
   const handleAction = (value) => {
     setOpen(false); // close dropdown on click

@@ -34,12 +34,12 @@ const isAdmin = user.role === "admin";
   actions.push({
     group: "Danger Zone",
     items: [
-      {
-        label: "more…",
-        submenu: [
-          { label: "Delete Agent", value: "delete", icon: FaTrashCan, destructive: true },
-        ],
-      },
+      
+       { label: "Delete Agent", value: "delete", icon: FaTrashCan, destructive: true },
+       
+         
+      
+      
     ],
   });
 }

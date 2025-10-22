@@ -6,6 +6,8 @@ import { FaTrashCan } from "react-icons/fa6";
 
 
 const BankActionDropdown = ({ data, onEdit, onDelete }) => {
+    const user = JSON.parse(localStorage.getItem("user") || "{}");
+const isAdmin = user.role === "admin";
   const actions = [
     {
       group: "General",
@@ -13,13 +15,19 @@ const BankActionDropdown = ({ data, onEdit, onDelete }) => {
         { label: "Edit Bank", value: "edit", icon: FaEdit },
       ],
     },
-    {
+    
+  ];
+
+   if (isAdmin) {
+    actions.push({
+      
       group: "Danger Zone",
       items: [
         { label: "Delete Bank", value: "delete", icon: FaTrashCan, destructive: true },
       ],
-    },
-  ];
+    
+    });
+  }
 
   const handleAction = (value) => {
     switch (value) {

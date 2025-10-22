@@ -209,7 +209,7 @@ const handleRestoreTransactions = async (agent) => {
         />
 
         {/* Filters + Table */}
-        <div className="border border-gray-200 rounded-lg p-4 mb-4 bg-white shadow-sm">
+        <div className="border border-gray-200 rounded-lg  mb-4 bg-white shadow-sm">
           <ControlPanel
             onSearch={setSearchTerm}
             filters={filters}
@@ -222,7 +222,10 @@ const handleRestoreTransactions = async (agent) => {
               <p className="text-gray-500 text-lg">Please select a bank to see agent data.</p>
             </div>
           ) : (
+            <div className="p-2">
+
             <DataTable columns={columns} data={agents} />
+            </div>
           )}
         </div>
         {selectedAgent && (

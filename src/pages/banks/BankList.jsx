@@ -109,14 +109,15 @@ export default function BankList() {
         />
 
         {/* Search & Table */}
-        <div className="border border-gray-200 rounded-lg p-4 mb-4 bg-white shadow-sm">
+        <div className="border border-gray-200 rounded-lg  bg-white shadow-sm flex flex-col min-h-0">
           <ControlPanel onSearch={setSearchTerm} />
-
+<div className="p-2">
           <DataTable
             columns={columns}
             data={banks}
 
           />
+          </div>
         </div>
 
         {/* Optional Confirm Delete Modal */}

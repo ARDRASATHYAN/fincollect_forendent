@@ -42,7 +42,7 @@ export default function ControlPanel({
     ))}
   </div>
 )}
-    <div className="flex flex-col md:flex-row justify-between items-start md:items-center bg-white rounded-md mb-4 space-y-3 md:space-y-0 p-3">
+    <div className="flex flex-col md:flex-row justify-between items-start md:items-center bg-white rounded-md  space-y-3 md:space-y-0 p-3">
       {/* Search Bar */}
        <div className="flex md:mr-4 w-full md:w-auto gap-2">
         <Input

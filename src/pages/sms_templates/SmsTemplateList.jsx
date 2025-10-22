@@ -166,7 +166,7 @@ export default function SmsTemplateList() {
         />
 
         {/* Search + Filters + Table */}
-        <div className="border border-gray-200 rounded-lg p-4 mb-4 bg-white shadow-sm min-h-[200px] flex flex-col">
+        <div className="border border-gray-200 rounded-lg  mb-4 bg-white shadow-sm min-h-[200px] flex flex-col">
           <ControlPanel
             onSearch={setSearchTerm}
             filters={filters}
@@ -175,7 +175,9 @@ export default function SmsTemplateList() {
           />
 
           {selectedBankId ? (
+            <div className="p-2">
             <DataTable columns={columns} data={smstemplates} />
+            </div>
           ) : (
             <div className="flex justify-center items-center h-64">
               <p className="text-gray-500 text-lg">

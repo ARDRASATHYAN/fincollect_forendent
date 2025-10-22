@@ -14,7 +14,7 @@ export default function DataTable({ columns, data, onRowClick, striped = true })
     getPaginationRowModel: getPaginationRowModel(),
     initialState: {
       pagination: {
-        pageSize: 6,
+        pageSize: 10,
       },
     },
   });

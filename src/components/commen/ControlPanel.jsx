@@ -10,6 +10,7 @@ export default function ControlPanel({
   onSearch,
   onFilterChange,
   onClearFilters,
+  
 }) {
   const [searchValue, setSearchValue] = useState("");
   const [activeFilters, setActiveFilters] = useState({});
@@ -29,7 +30,7 @@ export default function ControlPanel({
   return (
     <div className="flex flex-col md:flex-row justify-between items-start md:items-center bg-white rounded-md mb-4 space-y-3 md:space-y-0 p-3">
       {/* Search Bar */}
-      <div className="flex-1 md:mr-4 w-full md:w-auto">
+       <div className="flex md:mr-4 w-full md:w-auto gap-2">
         <Input
           type="text"
           placeholder="Search..."
@@ -41,7 +42,22 @@ export default function ControlPanel({
             onSearch?.(value);
           }}
         />
+
+        {/* Display active filter names */}
+        {Object.keys(activeFilters).length > 0 && (
+  <div className="mt-1 flex flex-wrap gap-2">
+    {Object.entries(activeFilters).map(([name, value]) => (
+      <span
+        key={name}
+        className="px-2 py-1 text-gray-800 rounded-full text-sm"
+      >
+        {name}: {value && typeof value === "object" ? value.label : value}
+      </span>
+    ))}
+  </div>
+)}
       </div>
+
 
       {/* Filters Section */}
       {filters.length > 0 && (

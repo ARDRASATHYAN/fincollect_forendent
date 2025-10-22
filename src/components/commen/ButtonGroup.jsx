@@ -13,6 +13,7 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { HiDotsVertical } from "react-icons/hi";
 
 /**
  * ActionDropdown supporting submenus without radio buttons
@@ -21,14 +22,13 @@ export function ActionDropdown({ actions = [], onAction, className = "" }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button
-          variant="outline"
-          size="icon"
+        <button
+       
           aria-label="More Options"
-          className={className}
+          className="border border-gray-300 rounded p-1 hover:bg-gray-100 focus:outline-none"
         >
-          ⋮
-        </Button>
+         <HiDotsVertical />
+        </button>
       </DropdownMenuTrigger>
 
       <DropdownMenuContent align="end" className="w-52">

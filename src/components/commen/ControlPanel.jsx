@@ -28,6 +28,20 @@ export default function ControlPanel({
   };
 
   return (
+    <>
+    {/* Display active filter names */}
+        {Object.keys(activeFilters).length > 0 && (
+  <div className="mt-1 flex flex-wrap gap-2">
+    {Object.entries(activeFilters).map(([name, value]) => (
+      <span
+        key={name}
+        className="px-2 py-1 text-gray-800 rounded-full text-sm"
+      >
+        {value && typeof value === "object" ? value.label : value}
+      </span>
+    ))}
+  </div>
+)}
     <div className="flex flex-col md:flex-row justify-between items-start md:items-center bg-white rounded-md mb-4 space-y-3 md:space-y-0 p-3">
       {/* Search Bar */}
        <div className="flex md:mr-4 w-full md:w-auto gap-2">
@@ -43,19 +57,7 @@ export default function ControlPanel({
           }}
         />
 
-        {/* Display active filter names */}
-        {Object.keys(activeFilters).length > 0 && (
-  <div className="mt-1 flex flex-wrap gap-2">
-    {Object.entries(activeFilters).map(([name, value]) => (
-      <span
-        key={name}
-        className="px-2 py-1 text-buttonblue rounded-full text-sm"
-      >
-        {value && typeof value === "object" ? value.label : value}
-      </span>
-    ))}
-  </div>
-)}
+        
       </div>
 
 
@@ -82,5 +84,6 @@ export default function ControlPanel({
         </div>
       )}
     </div>
+    </>
   );
 }

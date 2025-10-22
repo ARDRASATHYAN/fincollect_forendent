@@ -46,7 +46,7 @@ export default function DataTable({ columns, data, onRowClick, striped = true })
               onClick={() => onRowClick?.(row.original)}
             >
               {row.getVisibleCells().map(cell => (
-                <td key={cell.id} className="p-3 text-sm text-gray-800">
+                <td key={cell.id} className="p-3 text-xs text-gray-800">
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>
               ))}

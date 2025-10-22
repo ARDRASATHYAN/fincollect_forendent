@@ -40,31 +40,7 @@ export default function SmsTemplateFormSheet({ agent = null, onSubmit, isOpen, o
      getBanks().then(setBanks).catch(console.error);
    }, []);
 
-   // Auto-fill message based on Template Name and Bank
-useEffect(() => {
-  const tname = watch("tname");
-  const bid = watch("bid");
-  const currentMsg = watch("msg"); // get current value
-  const selectedBank = banks.find((b) => b.id === bid)?.name || "";
 
-  if (!tname) return;
-
-  // Only auto-fill if msg is empty or unchanged from default auto-fill
-  const isMsgEmpty = !currentMsg || currentMsg === "";
-
-  if (!isMsgEmpty && isEditing) return; // skip auto-fill if editing and msg exists
-
-  let autoMsg = "";
-  if (tname === "PAY") {
-    autoMsg = `Rs. <%amt%> received in your A/c. <%acno%> has been cancelled. Provisional balance is Rs. <%balance%>. ${selectedBank}`;
-  } else if (tname === "OTP") {
-    autoMsg = `OTP for Fincollect Mobile App is <%otp%>. Do not share this OTP with anyone for security reasons. ${selectedBank}`;
-  } else if (tname === "REC") {
-    autoMsg = `Rs. <%amt%> received in your A/c. <%acno%> through collection agent <%agent%>. Provisional balance is Rs. <%balance%>. ${selectedBank}`;
-  }
-
-  setValue("msg", autoMsg);
-}, [watch("tname"), watch("bid"), banks, setValue, watch("msg"), isEditing]);
 
 
  

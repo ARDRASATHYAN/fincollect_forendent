@@ -31,7 +31,7 @@ export default function ControlPanel({
     <>
     {/* Display active filter names */}
         {Object.keys(activeFilters).length > 0 && (
-  <div className="mt-1 flex flex-wrap gap-2">
+  <div className="mt-1 flex flex-wrap gap-2 border-b">
     {Object.entries(activeFilters).map(([name, value]) => (
       <span
         key={name}

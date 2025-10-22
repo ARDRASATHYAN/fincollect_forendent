@@ -19,7 +19,7 @@ export default function UserSheet({
 }) {
   return (
     <Sheet open={isOpen} onOpenChange={(open) => (open ? onOpen?.() : onClose?.())}>
-      <SheetContent side="right" className="flex flex-col w-[400px] sm:w-[480px] p-0" onCancel={onCancel} >
+      <SheetContent side="right" className="flex flex-col w-[400px] sm:w-[480px] p-0 transition-transform data-[state=open]:animate-slide-in-from-right data-[state=closed]:animate-slide-out-to-right z-50" onCancel={onCancel} >
         {/* Header */}
         <div className="border-b p-4">
           <SheetHeader >

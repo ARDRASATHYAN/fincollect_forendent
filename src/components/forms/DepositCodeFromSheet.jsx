@@ -24,8 +24,8 @@ const defaultValues = {
   bid: "",
   code: "",
   description: "",
-  times: "",
-  multiples: "",
+  times: 0,
+  multiples: 0,
   Stmt_Req: 0,
 
 };

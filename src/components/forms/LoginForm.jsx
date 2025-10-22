@@ -40,7 +40,7 @@ export function LoginForm() {
     <div className="min-h-screen flex items-center justify-center">
       <Card className="w-full max-w-sm">
         <CardHeader>
-          <Button variant="link">Sign In</Button>
+          <h1  className="font-bold text-lg items-center flex justify-center">Sign In</h1>
         </CardHeader>
 
         <form onSubmit={handleSubmit}>

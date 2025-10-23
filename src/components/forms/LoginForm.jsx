@@ -30,7 +30,7 @@ export function LoginForm() {
       success("Login successfully");
       navigate("/bank");
     } catch (err) {
-      showError(err.response?.data?.message || "Login failed");
+      showError(err);
     } finally {
       setLoading(false); 
     }

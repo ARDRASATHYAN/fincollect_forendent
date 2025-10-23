@@ -28,7 +28,7 @@ export default function UserList() {
       const data = await getUsers();
       setUsers(data);
     } catch (err) {
-      showError("Failed to load users");
+      showError(err);
     }
   };
 
@@ -66,7 +66,7 @@ export default function UserList() {
       setSelectedUser(null);
       loadUsers();
     } catch (err) {
-      showError("Failed to save user");
+      showError(err);
     }
   };
 
@@ -85,7 +85,7 @@ export default function UserList() {
     setDeleteTarget(null);
     loadUsers();
   } catch (err) {
-    showError("Failed to delete user");
+    showError(err);
   }
 };
 

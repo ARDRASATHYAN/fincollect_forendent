@@ -35,7 +35,7 @@ export default function ControlPanel({
     {Object.entries(activeFilters).map(([name, value]) => (
       <span
         key={name}
-        className="px-2 py-1 text-gray-800 rounded-full text-sm"
+        className="px-2 py-1 text-gray-800 rounded-full text-sm font-bold"
       >
         {value && typeof value === "object" ? value.label : value}
       </span>

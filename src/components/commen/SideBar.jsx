@@ -6,6 +6,8 @@ import { PiBankFill } from "react-icons/pi";
 import { FaUser, FaUsers } from "react-icons/fa";
 import { MdTextsms } from "react-icons/md";
 import { ImMenu } from "react-icons/im";
+import logo from "../../assets/fincollect.png";
+
 
 // Helper to merge Tailwind classes
 function cn(...classes) {
@@ -61,7 +63,7 @@ export default function Sidebar({ children }) {
             {/* <div className="h-[40px] w-[40px] flex justify-center items-center text-white bg-black text-xl font-medium rounded-md">
               F
             </div> */}
-          <img src="/src/assets/fincollect.png" alt="" className="h-[40px] w-[40px]"/>
+          <img src={logo} alt="FinCollect logo" className="h-[40px] w-[40px]"/>
             {isExpanded && (
               <span>
                 <p className="text-[20px] text-gray-800 font-bold whitespace-nowrap">

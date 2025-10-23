@@ -136,7 +136,7 @@ export default function Sidebar({ children }) {
      {/* Mobile menu button */}
 {!isMobileOpen && (
   <button
-    className="fixed top-4 left-4 z-40 md:hidden h-[40px] w-[40px] flex items-center justify-center bg-black text-white rounded-md text-lg font-semibold shadow-md"
+    className="fixed top-4 left-4 z-40 md:hidden h-[30px] w-[30px] flex items-center justify-center bg-black text-white rounded-md text-lg font-semibold shadow-md"
     onClick={() => setIsMobileOpen(true)}
   >
     <ImMenu />

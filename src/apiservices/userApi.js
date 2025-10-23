@@ -2,7 +2,7 @@ import apiClient from "./apilCient";
 
 
 export const loginUser = async ({ email, password }) => {
-  const res = await apiClient.post("/users/login", { email, password });
+  const res = await apiClient.post("/auth/login", { email, password });
   localStorage.setItem("accessToken", res.data.accessToken);
   localStorage.setItem("refreshToken", res.data.refreshToken);
    localStorage.setItem("user", JSON.stringify(res.data.user));
@@ -13,7 +13,7 @@ export const refreshToken = async () => {
   const token = localStorage.getItem("refreshToken");
   if (!token) throw new Error("No refresh token");
 
-  const res = await apiClient.post("/users/refresh-token", { token });
+  const res = await apiClient.post("/auth/refresh-token", { token });
   localStorage.setItem("accessToken", res.data.accessToken);
   return res.data.accessToken;
 };
@@ -63,7 +63,7 @@ export const deleteUser = async (id) => {
 
 export const forgotPassword = async (email) => {
   try {
-    const res = await apiClient.post("/users/forgot-password", { email });
+    const res = await apiClient.post("/auth/forgot-password", { email });
     return res.data;
   } catch (err) {
     throw err.response?.data || { message: "Failed to send reset link" };
@@ -73,7 +73,7 @@ export const forgotPassword = async (email) => {
 // 🔹 Reset password using token
 export const resetPassword = async (token, password) => {
   try {
-    const res = await apiClient.post("/users/reset-password", { token, password });
+    const res = await apiClient.post("/auth/reset-password", { token, password });
     return res.data;
   } catch (err) {
     throw err.response?.data || { message: "Failed to reset password" };

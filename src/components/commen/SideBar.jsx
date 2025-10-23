@@ -5,6 +5,7 @@ import { LogOut } from "lucide-react";
 import { PiBankFill } from "react-icons/pi";
 import { FaUser, FaUsers } from "react-icons/fa";
 import { MdTextsms } from "react-icons/md";
+import { ImMenu } from "react-icons/im";
 
 // Helper to merge Tailwind classes
 function cn(...classes) {
@@ -57,9 +58,10 @@ export default function Sidebar({ children }) {
         {/* Header */}
         <div className="flex items-center border-b border-gray-200 p-4">
           <div className="flex items-center cursor-pointer gap-2.5">
-            <div className="h-[40px] w-[40px] flex justify-center items-center text-white bg-black text-xl font-medium rounded-md">
+            {/* <div className="h-[40px] w-[40px] flex justify-center items-center text-white bg-black text-xl font-medium rounded-md">
               F
-            </div>
+            </div> */}
+          <img src="/src/assets/fincollect.png" alt="" className="h-[40px] w-[40px]"/>
             {isExpanded && (
               <span>
                 <p className="text-[20px] text-gray-800 font-bold whitespace-nowrap">
@@ -128,13 +130,17 @@ export default function Sidebar({ children }) {
         </div>
       </nav>
 
-      {/* Mobile menu button */}
-      <button
-        className="fixed top-4 left-4 z-40 md:hidden h-[40px] w-[40px] flex items-center justify-center bg-black text-white rounded-md text-lg font-semibold shadow-md"
-        onClick={() => setIsMobileOpen(true)}
-      >
-        F
-      </button>
+   
+     {/* Mobile menu button */}
+{!isMobileOpen && (
+  <button
+    className="fixed top-4 left-4 z-40 md:hidden h-[40px] w-[40px] flex items-center justify-center bg-black text-white rounded-md text-lg font-semibold shadow-md"
+    onClick={() => setIsMobileOpen(true)}
+  >
+    <ImMenu />
+  </button>
+)}
+
 
       {/* Main content */}
       <div

@@ -13,6 +13,7 @@ import { Label } from "@/components/ui/label";
 import { loginUser } from "@/apiservices/userApi";
 import { useNavigate } from "react-router-dom";
 import useToast from "@/hooks/useToast";
+import logo from "../../assets/fincollect.png";
 
 export function LoginForm() {
   const navigate = useNavigate();
@@ -39,13 +40,15 @@ export function LoginForm() {
   return (
     <div className="min-h-screen flex items-center justify-center">
       <Card className="w-full max-w-sm">
-        <CardHeader>
-          <h1  className="font-bold text-lg items-center flex justify-center">Sign In</h1>
+        <CardHeader className="flex flex-col items-center ">
+        <img src={logo} alt=""  className="w-24 h-24 rounded-full border"/>
+          <h1  className="font-bold text-lg items-center flex justify-center">fincollect</h1>
+
         </CardHeader>
 
         <form onSubmit={handleSubmit}>
           <CardContent>
-            <div className="flex flex-col gap-6">
+            <div className="flex flex-col gap-2">
               <div className="grid gap-2">
                 <Label htmlFor="email">Email</Label>
                 <Input
@@ -61,12 +64,7 @@ export function LoginForm() {
               <div className="grid gap-2">
                 <div className="flex items-center">
                   <Label htmlFor="password">Password</Label>
-                  <a
-                    href="/forgotpassword"
-                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                  >
-                    Forgot your password?
-                  </a>
+                 
                 </div>
                 <Input
                   id="password"
@@ -77,7 +75,14 @@ export function LoginForm() {
                   required
                 />
               </div>
+               <a
+                    href="/forgotpassword"
+                    className=" text-sm  hover:text-blue-800 flex items-center justify-center"
+                  >
+                    Forgot your password?
+                  </a>
             </div>
+            
           </CardContent>
 
           <CardFooter className="flex-col gap-2">

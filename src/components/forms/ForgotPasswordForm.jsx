@@ -1,71 +1,74 @@
-import { useState } from "react";
-import { forgotPassword } from "@/apiservices/userApi";
+"use client";
+
+import React from "react";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from "yup";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { loginUser } from "@/apiservices/userApi";
+import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import { forgotPassword } from "@/apiservices/userApi";
 import { useNavigate } from "react-router-dom";
+import { TextField } from "@mui/material";
+
+// Yup validation schema
+const schema = Yup.object().shape({
+  email: Yup.string()
+    .email("Invalid email address")
+    .required("Email is required"),
+});
 
 export function ForgotPassword() {
-  const navigate = useNavigate(); 
- const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
+  const navigate = useNavigate();
+  const [message, setMessage] = React.useState("");
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
+
+  const onSubmit = async (data) => {
+    setMessage("");
     try {
-      const res = await forgotPassword(email); // call API service
-      setMessage(res.message);
+      const res = await forgotPassword(data.email); // call API service
+      setMessage(res.message || "Reset link sent successfully");
     } catch (err) {
       setMessage(err.message || "Error sending reset link");
     }
   };
 
-
-
   return (
     <div className="min-h-screen flex items-center justify-center">
-    <Card className="w-full max-w-sm ">
-      <CardHeader>
-       
-        <Button variant="link">Forgot Password</Button>
-      </CardHeader>
+      <Card className="w-full max-w-sm">
+        <CardHeader className="flex items-center justify-center">
+          <h2 className="text-lg font-bold">Forgot Password</h2>
+        </CardHeader>
 
-      <form onSubmit={handleSubmit}>
-        <CardContent>
-         
-          <div className="flex flex-col gap-6">
-            <div className="grid gap-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="m@example.com"
-                value={email}
-          onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-            </div>
-           {message && <p className="text-red-500 mb-2">{message}</p>}
-          </div>
-        </CardContent>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <CardContent className="flex flex-col gap-4">
+            <TextField
+              label="Email"
+              type="email"
+              size="small"
+              color="black"
+              fullWidth
+              {...register("email")}
+              error={!!errors.email}
+              helperText={errors.email?.message}
+            />
 
-        <CardFooter className="flex-col gap-2">
-          <Button type="submit" className="w-full">
-             Send Reset Link
-          </Button>
-         
-        </CardFooter>
-      </form>
-    </Card>
+            {message && <p className="text-red-500">{message}</p>}
+          </CardContent>
+
+          <CardFooter className="flex-col gap-2">
+            <Button type="submit" className="w-full" disabled={isSubmitting}>
+              {isSubmitting ? "Sending..." : "Send Reset Link"}
+            </Button>
+          </CardFooter>
+        </form>
+      </Card>
     </div>
   );
 }

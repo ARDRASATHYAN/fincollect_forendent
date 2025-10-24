@@ -1,92 +1,92 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from "yup";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { loginUser } from "@/apiservices/userApi";
 import { useNavigate } from "react-router-dom";
 import useToast from "@/hooks/useToast";
 import logo from "../../assets/fincollect.png";
+import { TextField } from "@mui/material";
+
+// Yup validation schema
+const schema = Yup.object().shape({
+  email: Yup.string()
+    .email("Invalid email address")
+    .required("Email is required"),
+  password: Yup.string()
+    .min(6, "Password must be at least 6 characters")
+    .required("Password is required"),
+});
 
 export function LoginForm() {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
   const { success, error: showError } = useToast();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true); // start loading
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
+
+  const onSubmit = async (data) => {
     try {
-      const data = await loginUser({ email, password });
-      console.log("Login successful", data);
+      const res = await loginUser(data);
       success("Login successfully");
       navigate("/bank");
     } catch (err) {
-      showError(err);
-    } finally {
-      setLoading(false);
+      showError(err?.message || "Login failed");
     }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center">
       <Card className="w-full max-w-sm">
-        <CardHeader className="flex flex-col items-center ">
-          <img src={logo} alt="" className="w-24 h-24 rounded-full border" />
-          <h1 className="font-bold text-lg items-center flex justify-center">Fincollect</h1>
-
+        <CardHeader className="flex flex-col items-center">
+          <img src={logo} alt="Fincollect" className="w-24 h-24 rounded-full border" />
+          <h1 className="font-bold text-lg flex justify-center">Fincollect</h1>
         </CardHeader>
 
-        <form onSubmit={handleSubmit}>
-          <CardContent>
-            <div className="flex flex-col gap-2">
-              <div className="grid gap-2">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="m@example.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
-              </div>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <CardContent className="flex flex-col gap-3">
+            <TextField
+              label="Email"
+              type="email"
+              size="small"
+              color="black"
+              fullWidth
+              {...register("email")}
+              error={!!errors.email}
+              helperText={errors.email?.message}
+            />
 
-              <div className="grid gap-2">
-                <div className="flex items-center">
-                  <Label htmlFor="password">Password</Label>
+            <TextField
+              label="Password"
+              type="password"
+              size="small"
+              fullWidth
+              color="black"
+              {...register("password")}
+              error={!!errors.password}
+              helperText={errors.password?.message}
+            />
 
-                </div>
-                <Input
-                  id="password"
-                  type="password"
-                  placeholder="Enter password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
-              </div>
-              <a
-                href="/forgotpassword"
-                className=" text-sm  hover:text-blue-800 flex items-center justify-center"
-              >
-                Forgot your password?
-              </a>
-            </div>
+            <a
+              href="/forgotpassword"
+              className="text-sm hover:text-blue-800 flex justify-center"
+            >
+              Forgot your password?
+            </a>
           </CardContent>
 
           <CardFooter className="flex-col gap-2">
-            <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? "Logging in..." : "Login"}
+            <Button type="submit" className="w-full" disabled={isSubmitting}>
+              {isSubmitting ? "Logging in..." : "Login"}
             </Button>
           </CardFooter>
         </form>

@@ -77,12 +77,11 @@ export function LoginForm() {
               </div>
                <a
                     href="/forgotpassword"
-                    className=" text-sm  hover:text-blue-800 flex items-center justify-center"
+                    className=" text-sm  hover:text-blue-800 flex items-center justify-items-center"
                   >
                     Forgot your password?
                   </a>
             </div>
-            
           </CardContent>
 
           <CardFooter className="flex-col gap-2">

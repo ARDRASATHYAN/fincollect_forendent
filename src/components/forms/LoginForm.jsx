@@ -33,7 +33,7 @@ export function LoginForm() {
     } catch (err) {
       showError(err);
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
   };
 
@@ -41,8 +41,8 @@ export function LoginForm() {
     <div className="min-h-screen flex items-center justify-center">
       <Card className="w-full max-w-sm">
         <CardHeader className="flex flex-col items-center ">
-        <img src={logo} alt=""  className="w-24 h-24 rounded-full border"/>
-          <h1  className="font-bold text-lg items-center flex justify-center">fincollect</h1>
+          <img src={logo} alt="" className="w-24 h-24 rounded-full border" />
+          <h1 className="font-bold text-lg items-center flex justify-center">Fincollect</h1>
 
         </CardHeader>
 
@@ -64,7 +64,7 @@ export function LoginForm() {
               <div className="grid gap-2">
                 <div className="flex items-center">
                   <Label htmlFor="password">Password</Label>
-                 
+
                 </div>
                 <Input
                   id="password"
@@ -75,12 +75,12 @@ export function LoginForm() {
                   required
                 />
               </div>
-               <a
-                    href="/forgotpassword"
-                    className=" text-sm  hover:text-blue-800 flex items-center justify-items-center"
-                  >
-                    Forgot your password?
-                  </a>
+              <a
+                href="/forgotpassword"
+                className=" text-sm  hover:text-blue-800 flex items-center justify-center"
+              >
+                Forgot your password?
+              </a>
             </div>
           </CardContent>
 

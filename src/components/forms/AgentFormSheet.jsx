@@ -1,14 +1,11 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
-import UserSheet from "../commen/FormSheet";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
+import { TextField, Drawer, Box, Typography, Button, FormControl, InputLabel, Select, MenuItem, FormHelperText, Switch as MuiSwitch } from "@mui/material";
 import { getBanks } from "@/apiservices/bankApi";
+import FormDrawer from "../commen/FormDrawer";
 
 // Validation schema
 const validationSchema = yup.object().shape({
@@ -48,23 +45,19 @@ const defaultValues = {
   sms_required: true,
 };
 
-export default function AgentFormSheet({ agent = null, onSubmit, isOpen, onOpen, onClose }) {
+export default function AgentFormDrawer({ agent = null, onSubmit, isOpen, onOpen, onClose }) {
   const [isEditing, setIsEditing] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
   const [banks, setBanks] = useState([]);
 
-  const { register, handleSubmit, watch, setValue, reset, formState: { errors } } = useForm({
+  const { control, handleSubmit, watch, setValue, reset, formState: { errors } } = useForm({
     resolver: yupResolver(validationSchema),
     defaultValues,
   });
 
   // Fetch banks
-  const fetchBanks = () => {
-    getBanks().then(setBanks).catch(console.error);
-  };
-
   useEffect(() => {
-    fetchBanks();
+    getBanks().then(setBanks).catch(console.error);
   }, []);
 
   // Load agent for edit
@@ -72,13 +65,12 @@ export default function AgentFormSheet({ agent = null, onSubmit, isOpen, onOpen,
     if (agent) {
       setIsEditing(true);
       const { pwd, pin, ...rest } = agent;
-
-    reset({
-      ...defaultValues,
-      ...rest,
-      pwd: "", // leave blank in edit mode
-      pin: "", // leave blank in edit mode
-    });
+      reset({
+        ...defaultValues,
+        ...rest,
+        pwd: "",
+        pin: "",
+      });
       setShowDetails(true);
       if (agent.bid) setValue("bid", agent.bid);
     } else {
@@ -88,33 +80,27 @@ export default function AgentFormSheet({ agent = null, onSubmit, isOpen, onOpen,
     }
   }, [agent, reset, setValue]);
 
-   const editingAgent = agent;
+  const editingAgent = agent;
 
-  //  Ensure mname = name if empty before sending to backend
   const handleSave = async (data) => {
-  try {
-    // Ensure mname = name if empty
-    if (!data.mname || data.mname.trim() === "") {
-      data.mname = data.name;
+    try {
+      if (!data.mname || data.mname.trim() === "") data.mname = data.name;
+
+      if (isEditing && editingAgent) {
+        if (data.pwd === editingAgent.pwd) delete data.pwd;
+        if (data.pin === editingAgent.pin) delete data.pin;
+      }
+
+      await onSubmit?.(data);
+
+      const currentBank = watch("bid");
+      reset({ ...defaultValues, bid: currentBank });
+
+      if (!isEditing) setShowDetails(false);
+    } catch (err) {
+      console.error("Failed to save agent:", err);
     }
-
-    // Only send pwd/pin if changed in edit mode
-    if (isEditing && editingAgent) {
-      if (data.pwd === editingAgent.pwd) delete data.pwd;
-      if (data.pin === editingAgent.pin) delete data.pin;
-    }
-
-    await onSubmit?.(data);
-
-    const currentBank = watch("bid");
-    reset({ ...defaultValues, bid: currentBank });
-
-    if (!isEditing) setShowDetails(false);
-  } catch (err) {
-    console.error("Failed to save agent:", err);
-  }
-};
-
+  };
 
   const handleCancel = () => {
     reset(defaultValues);
@@ -123,131 +109,221 @@ export default function AgentFormSheet({ agent = null, onSubmit, isOpen, onOpen,
   };
 
   return (
-    <UserSheet
+    <FormDrawer
       title={isEditing ? "Edit Agent" : "Add New Agent"}
       saveLabel={isEditing ? "Save Changes" : "Save"}
       isOpen={isOpen}
-      onOpen={onOpen}
+      onClose={handleCancel}
       onSave={handleSubmit(handleSave)}
-      onCancel={handleCancel}
     >
-      <form className="space-y-4">
-        <div>
-          <Label>Bank</Label>
-          <Select value={watch("bid")} onValueChange={(val) => setValue("bid", val)} disabled={isEditing}>
-            <SelectTrigger>
-              <SelectValue placeholder="Select bank" />
-            </SelectTrigger>
-            <SelectContent className="h-[200px]">
+
+
+      {/* Scrollable content */}
+      <Box sx={{ flex: 1, overflowY: "auto", p: 2 }}>
+        <form className="space-y-4">
+          {/* Bank Select */}
+          <FormControl fullWidth error={!!errors.bid} size="small" >
+            <InputLabel id="bank-select-label" color="black">Bank</InputLabel>
+            <Select
+              labelId="bank-select-label"
+              value={watch("bid") || ""}
+              label="Bank"
+              onChange={(e) => setValue("bid", e.target.value)} color="black"
+              disabled={isEditing}
+              MenuProps={{
+                PaperProps: {
+                  sx: {
+                    maxHeight: 200, // maximum height of dropdown
+                    width: 250,     // width of dropdown
+                  },
+                },
+              }}
+            >
+
               {banks.map((bank) => (
-                <SelectItem key={bank.id} value={bank.id}>
-                  {bank.name}
-                </SelectItem>
+                <MenuItem key={bank.id} value={bank.id} >
+                  {bank.name}-({bank.id})
+                </MenuItem>
               ))}
-            </SelectContent>
-          </Select>
-          {errors.bid && <p className="text-red-500 text-sm">{errors.bid.message}</p>}
-        </div>
+            </Select>
+            {errors.bid && <FormHelperText>{errors.bid.message}</FormHelperText>}
+          </FormControl>
 
-        <div>
-          <Label>Branch</Label>
-          <Input {...register("branch")} placeholder="Enter branch" />
-          {errors.branch && <p className="text-red-500 text-sm">{errors.branch.message}</p>}
-        </div>
+          {/* Branch */}
+          <Controller
+            name="branch"
+            control={control}
+            render={({ field, fieldState: { error } }) => (
+              <TextField {...field} label="Branch" size="small" fullWidth error={!!error} helperText={error?.message} color="black" />
+            )}
+          />
 
-        <div>
-          <Label>ID</Label>
-          <Input {...register("id")} placeholder="Enter ID" disabled={isEditing} />
-          {errors.id && <p className="text-red-500 text-sm">{errors.id.message}</p>}
-        </div>
+          {/* ID */}
+          <Controller
+            name="id"
+            control={control}
+            render={({ field, fieldState: { error } }) => (
+              <TextField {...field} label="ID" size="small" fullWidth error={!!error} helperText={error?.message} disabled={isEditing} color="black" />
+            )}
+          />
 
-        <div>
-          <Label>Name</Label>
-          <Input {...register("name")} placeholder="Enter name" />
-          {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
-        </div>
+          {/* Name */}
+          <Controller
+            name="name"
+            control={control}
+            render={({ field, fieldState: { error } }) => (
+              <TextField {...field} label="Name" size="small" fullWidth error={!!error} helperText={error?.message} color="black" />
+            )}
+          />
 
-        <div>
-          <Label>Name in Malayalam</Label>
-          <Input {...register("mname")} placeholder="Name in Malayalam" />
-        </div>
+          {/* Name in Malayalam */}
+          <Controller
+            name="mname"
+            control={control}
+            render={({ field, fieldState: { error } }) => (
+              <TextField {...field} label="Name in Malayalam" size="small" fullWidth error={!!error} helperText={error?.message} color="black" />
+            )}
+          />
 
-        <div>
-          <Label>Mobile</Label>
-          <Input {...register("mobile")} placeholder="Enter mobile" />
-          {errors.mobile && <p className="text-red-500 text-sm">{errors.mobile.message}</p>}
-        </div>
+          {/* Mobile */}
+          <Controller
+            name="mobile"
+            control={control}
+            render={({ field, fieldState: { error } }) => (
+              <TextField {...field} label="Mobile" size="small" fullWidth error={!!error} helperText={error?.message} color="black" />
+            )}
+          />
 
-        {!isEditing && (
-          <button
-            type="button"
-            className="text-blue-600 hover:underline text-sm"
-            onClick={() => setShowDetails(!showDetails)}
-          >
-            {showDetails ? "Hide Details" : "Show More Details"}
-          </button>
-        )}
+          {!isEditing && (
+            <Button variant="text" onClick={() => setShowDetails(!showDetails)}>
+              {showDetails ? "Hide Details" : "Show More Details"}
+            </Button>
+          )}
 
-        {showDetails && (
-          <>
-            <div className="flex flex-col">
-              <Label>Status</Label>
-              <Select value={watch("status")} onValueChange={(val) => setValue("status", val)}>
-                <SelectTrigger className="mt-2">
-                  <SelectValue placeholder="Select status" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="A">Active</SelectItem>
-                  <SelectItem value="I">Inactive</SelectItem>
-                </SelectContent>
-              </Select>
-              {errors.status && <p className="text-red-500 text-sm mt-1">{errors.status.message}</p>}
-            </div>
+          {showDetails && (
+            <>
+              {/* Status */}
+              <FormControl fullWidth size="small" error={!!errors.status} sx={{ mt: 2 }}>
+                <InputLabel id="status-select-label" color="black">Status</InputLabel>
+                <Select
+                  labelId="status-select-label"
+                  value={watch("status")}
+                  label="Status"
+                  onChange={(e) => setValue("status", e.target.value)} color="black"
+                >
+                  <MenuItem value="A">Active</MenuItem>
+                  <MenuItem value="I">Inactive</MenuItem>
+                </Select>
+                {errors.status && <FormHelperText>{errors.status.message}</FormHelperText>}
+              </FormControl>
 
-            <div>
-              <Label>Password</Label>
-              <Input type="text" {...register("pwd")} placeholder="Enter password" />
-            </div>
+              {/* Password */}
+              <Controller
+                name="pwd"
+                control={control}
+                render={({ field, fieldState: { error } }) => (
+                  <TextField {...field} label="Password" size="small" fullWidth error={!!error} helperText={error?.message} color="black" />
+                )}
+              />
 
-            <div>
-              <Label>PIN</Label>
-              <Input type="text" {...register("pin")} placeholder="Enter PIN" />
-            </div>
+              {/* PIN */}
+              <Controller
+                name="pin"
+                control={control}
+                render={({ field, fieldState: { error } }) => (
+                  <TextField {...field} label="PIN" size="small" fullWidth error={!!error} helperText={error?.message} color="black" />
+                )}
+              />
 
-            <div>
-              <Label>Password expiry days</Label>
-              <Input type="text" {...register("pwd_expiry_days")} placeholder="Enter password expiry days" />
-            </div>
+              {/* Password expiry days */}
+              <Controller
+                name="pwd_expiry_days"
+                control={control}
+                render={({ field, fieldState: { error } }) => (
+                  <TextField {...field} label="Password expiry days" size="small" fullWidth error={!!error} helperText={error?.message} color="black" />
+                )}
+              />
 
-            <div>
-              <Label>Pin Login Attempt</Label>
-              <Input type="text" {...register("pinloginattempt")} placeholder="Enter pin login attempt" />
-            </div>
+              {/* Login attempts */}
+              <Controller
+                name="pinloginattempt"
+                control={control}
+                render={({ field, fieldState: { error } }) => (
+                  <TextField {...field} label="PIN Login Attempt" size="small" fullWidth error={!!error} helperText={error?.message} color="black" />
+                )}
+              />
+              <Controller
+                name="pwdloginattempt"
+                control={control}
+                render={({ field, fieldState: { error } }) => (
+                  <TextField {...field} label="Password Login Attempt" size="small" fullWidth error={!!error} helperText={error?.message} />
+                )}
+              />
 
-            <div>
-              <Label>Password Login Attempt</Label>
-              <Input type="text" {...register("pwdloginattempt")} placeholder="Enter password login attempt" />
-            </div>
+              {/* Switches */}
+              <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
+                <Typography>Enabled</Typography>
+                <MuiSwitch checked={watch("enabled")} onChange={(e) => setValue("enabled", e.target.checked)} sx={{
+                  "& .MuiSwitch-switchBase.Mui-checked": {
+                    color: "#000", 
+                    "&:hover": {
+                      backgroundColor: "rgba(0, 0, 0, 0.08)",
+                    },
+                  },
+                  "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
+                    backgroundColor: "#000", 
+                  },
+                }} />
+              </Box>
+              <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
+                <Typography>SMS Required</Typography>
+                <MuiSwitch checked={watch("sms_required")} onChange={(e) => setValue("sms_required", e.target.checked)} sx={{
+                  "& .MuiSwitch-switchBase.Mui-checked": {
+                    color: "#000", 
+                    "&:hover": {
+                      backgroundColor: "rgba(0, 0, 0, 0.08)",
+                    },
+                  },
+                  "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
+                    backgroundColor: "#000", 
+                  },
+                }} />
+              </Box>
+              <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
+                <Typography>Print Required</Typography>
+                <MuiSwitch checked={watch("print_required")} onChange={(e) => setValue("print_required", e.target.checked)} sx={{
+                  "& .MuiSwitch-switchBase.Mui-checked": {
+                    color: "#000", 
+                    "&:hover": {
+                      backgroundColor: "rgba(0, 0, 0, 0.08)",
+                    },
+                  },
+                  "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
+                    backgroundColor: "#000", 
+                  },
+                }} />
+              </Box>
+              <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
+                <Typography>Collection Status</Typography>
+                <MuiSwitch checked={watch("collection_status")} onChange={(e) => setValue("collection_status", e.target.checked)} sx={{
+                  "& .MuiSwitch-switchBase.Mui-checked": {
+                    color: "#000", 
+                    "&:hover": {
+                      backgroundColor: "rgba(0, 0, 0, 0.08)",
+                    },
+                  },
+                  "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
+                    backgroundColor: "#000", 
+                  },
+                }} />
+              </Box>
+            </>
+          )}
+        </form>
+      </Box>
 
-            <div className="flex items-center justify-between">
-              <Label>Enabled</Label>
-              <Switch checked={watch("enabled")} onCheckedChange={(val) => setValue("enabled", val)} />
-            </div>
-            <div className="flex items-center justify-between">
-              <Label>SMS Required</Label>
-              <Switch checked={watch("sms_required")} onCheckedChange={(val) => setValue("sms_required", val)} />
-            </div>
-            <div className="flex items-center justify-between">
-              <Label>Print Required</Label>
-              <Switch checked={watch("print_required")} onCheckedChange={(val) => setValue("print_required", val)} />
-            </div>
-            <div className="flex items-center justify-between">
-              <Label>Collection Status</Label>
-              <Switch checked={watch("collection_status")} onCheckedChange={(val) => setValue("collection_status", val)} />
-            </div>
-          </>
-        )}
-      </form>
-    </UserSheet>
+      {/* Footer */}
+
+    </FormDrawer>
   );
 }

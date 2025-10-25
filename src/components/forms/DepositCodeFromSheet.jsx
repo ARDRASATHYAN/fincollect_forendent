@@ -89,7 +89,7 @@ export default function DepositCodeFormSheet({ agent = null, onSubmit, isOpen, o
 
   return (
    <FormDrawer
-      title={isEditing ? "Edit Agent" : "Add New Agent"}
+      title={isEditing ? "Edit Deposit Code" : "Add New Deposit Code"}
       saveLabel={isEditing ? "Save Changes" : "Save"}
       isOpen={isOpen}
       onClose={handleCancel}
@@ -103,7 +103,7 @@ export default function DepositCodeFormSheet({ agent = null, onSubmit, isOpen, o
         {/* Bank */}
         <div>
            <FormControl fullWidth error={!!errors.bid} size="small" >
-            <InputLabel id="bank-select-label" color="black">Bank</InputLabel>
+            <InputLabel id="bank-select-label" color="black">Bank Name</InputLabel>
             <Select
               labelId="bank-select-label"
               value={watch("bid") || ""}

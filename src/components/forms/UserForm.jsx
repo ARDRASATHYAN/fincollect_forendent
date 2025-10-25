@@ -1,38 +1,45 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { Input } from "../ui/input";
-import UserSheet from "../commen/FormSheet";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "../ui/label";
+import FormDrawer from "../commen/FormDrawer";
+import { Box, Checkbox, FormControl, FormControlLabel, FormGroup, FormHelperText, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 
-// Validation schema
-const validationSchema = yup.object().shape({
-  id: yup.string().max(10),
-  name: yup.string().required("Name is required").max(75),
-  email: yup.string().required("Email is required").email("Invalid email").max(200),
-  role: yup.string().required("Role is required").max(50),
-  status: yup.boolean(),
-  password: yup.string().max(100), // optional on edit
-});
 
-// Default form values
-const defaultValues = {
-  id: "",
-  name: "",
-  email: "",
-  role: "user",
-  status: true,
-  password: "",
-};
+
+
+
+
 
 export default function UserForm({ user = null, onSubmit, isOpen, onOpen, onClose }) {
   const [isEditing, setIsEditing] = useState(false);
+  const validationSchema = yup.object().shape({
+    id: yup.string().max(10),
+    name: yup.string().required("Name is required").max(75),
+    email: yup.string().required("Email is required").email("Invalid email").max(200),
+    role: yup.string().required("Role is required").max(50),
+    status: yup.boolean(),
+    password: yup.string().when([], {
+      is: () => !isEditing,
+      then: (schema) =>
+        schema.required("Password is required.").min(6, "Password must be at least 6 characters."),
+      otherwise: (schema) => schema.notRequired(),
+    }),
+  });
 
-  const { register, handleSubmit, reset, watch, setValue, formState: { errors } } = useForm({
+  const defaultValues = {
+    id: "",
+    name: "",
+    email: "",
+    role: "",
+    status: true,
+    password: "",
+  };
+
+  const { register, control, handleSubmit, reset, watch, setValue, formState: { errors } } = useForm({
     resolver: yupResolver(validationSchema),
     defaultValues,
   });
@@ -71,77 +78,81 @@ export default function UserForm({ user = null, onSubmit, isOpen, onOpen, onClos
   };
 
   return (
-    <UserSheet
-      title={isEditing ? "Edit User" : "Add New User"}
+    <FormDrawer
+      title={isEditing ? "Edit User" : "Add New user"}
       saveLabel={isEditing ? "Save Changes" : "Save"}
       isOpen={isOpen}
-      onOpen={onOpen}
+      onClose={handleCancel}
       onSave={handleSubmit(handleSave)}
-      onCancel={handleCancel}
     >
-      <form id="user-form" className=" space-y-4">
-        {/* ID (disabled on edit) */}
+      <Box sx={{ flex: 1, overflowY: "auto", p: 2 }}>
+        <form id="user-form" className=" space-y-4">
 
 
- {/* <div className="flex flex-col">
-  <Label htmlFor="tid">ID</Label>
+          <div className="flex flex-col">
+            <Controller
+              name="name"
+              control={control}
+              render={({ field, fieldState: { error } }) => (
+                <TextField {...field} label="Name" size="small" fullWidth error={!!error} helperText={error?.message} color="black" />
+              )}
+            />
 
-        <Input
-          {...register("id")}
-          placeholder="ID"
-          disabled={isEditing}
-          className={isEditing ? "bg-gray-100 cursor-not-allowed" : " mt-2"}
-        />
-        {errors.id && <p className="text-red-500 text-sm">{errors.id.message}</p>}
-         </div> */}
+          </div>
+          <div className="flex flex-col">
+            <Controller
+              name="email"
+              control={control}
+              render={({ field, fieldState: { error } }) => (
+                <TextField {...field} label="Email" size="small" fullWidth error={!!error} helperText={error?.message} color="black" />
+              )}
+            />
 
-        <div className="flex flex-col">
-           <Label htmlFor="tid">Name</Label>
-     
-        <Input {...register("name")} placeholder="Name"  className="mt-2"/>
-        {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
- </div>
-        <div className="flex flex-col">
-           <Label htmlFor="tid">Email</Label>
-      
-        <Input {...register("email")} placeholder="Email" type="email" className="mt-2"/>
-        {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
- </div>
-        <div className="flex flex-col">
-           <Label htmlFor="tid" className="mb-2">Role</Label>
-       
-       
-          <Select value={roleValue} onValueChange={(val) => setValue("role", val)} >
-            <SelectTrigger>
-              <SelectValue placeholder="Select role" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="admin">Admin</SelectItem>
-              <SelectItem value="user">User</SelectItem>
-            </SelectContent>
-          </Select>
-       
-        {errors.role && <p className="text-red-500 text-sm">{errors.role.message}</p>}
- </div>
-        <div className="flex flex-col">
-           <Label htmlFor="tid">Password</Label>
-    
-        <Input {...register("password")} placeholder="Password" type="password"   disabled={isEditing}  className="mt-2"/>
-        {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
- </div>
-       <div className="flex flex-col">
-         <Label htmlFor="tid">Status</Label>
-      
-        <label className="flex items-center space-x-2">
-          <input
-            type="checkbox"
-            checked={statusValue}
-            onChange={(e) => setValue("status", e.target.checked)} className="mt-2"
-          />
-          <span>Active</span>
-        </label>
-         </div>
-      </form>
-    </UserSheet>
+
+            <FormControl fullWidth size="small" error={!!errors.role} sx={{ mt: 2 }}>
+              <InputLabel id="role-select-label" color="black">Role</InputLabel>
+              <Select
+                labelId="role-select-label"
+                value={watch("role")}
+                label="Role"
+                onChange={(e) => setValue("role", e.target.value)} color="black"
+              >
+                <MenuItem value="admin">Admin</MenuItem>
+                <MenuItem value="user">User</MenuItem>
+
+              </Select>
+              {errors.role && <FormHelperText>{errors.role.message}</FormHelperText>}
+            </FormControl>
+
+
+          </div>
+          <div className="flex flex-col">
+            <Controller
+              name="password"
+              control={control}
+              render={({ field, fieldState: { error } }) => (
+                <TextField {...field} label="Password" size="small" fullWidth error={!!error} helperText={error?.message} color="black" disabled={isEditing} />
+              )}
+            />
+
+          </div>
+          <FormGroup sx={{ mt: 2 }}>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={statusValue}
+                  onChange={(e) => setValue("status", e.target.checked)}
+                  sx={{
+                    color: "black", // unchecked color
+                    '&.Mui-checked': { color: "black" }, // checked color
+                  }}
+                />
+              }
+              label="Active"
+            />
+          </FormGroup>
+        </form>
+      </Box>
+    </FormDrawer>
   );
 }

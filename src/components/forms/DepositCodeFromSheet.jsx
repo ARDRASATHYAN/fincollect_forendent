@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
@@ -8,7 +8,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import UserSheet from "../commen/FormSheet";
 import { getBanks } from "@/apiservices/bankApi";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
+
+import FormDrawer from "../commen/FormDrawer";
+import { Box, FormControl, FormHelperText, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 
 // ✅ Validation Schema
 const validationSchema = yup.object().shape({
@@ -36,6 +38,7 @@ export default function DepositCodeFormSheet({ agent = null, onSubmit, isOpen, o
 
   const {
     register,
+    control,
     handleSubmit,
     watch,
     setValue,
@@ -85,84 +88,110 @@ export default function DepositCodeFormSheet({ agent = null, onSubmit, isOpen, o
   };
 
   return (
-    <UserSheet
-      title={isEditing ? "Edit DepositCode" : "Add New DepositCode"}
+   <FormDrawer
+      title={isEditing ? "Edit Agent" : "Add New Agent"}
       saveLabel={isEditing ? "Save Changes" : "Save"}
       isOpen={isOpen}
-      onOpen={onOpen}
+      onClose={handleCancel}
       onSave={handleSubmit(handleSave)}
-      onCancel={handleCancel}
     >
+
+
+      {/* Scrollable content */}
+      <Box sx={{ flex: 1, overflowY: "auto", p: 2 }}>
       <form className="space-y-4">
         {/* Bank */}
         <div>
-          <Label>Bank Name</Label>
-          <Select value={selectedBank} onValueChange={(val) => setValue("bid", val)} disabled={isEditing}>
-            <SelectTrigger className="mt-2">
-              <SelectValue placeholder="Select bank" />
-            </SelectTrigger>
-            <SelectContent className="h-[200px]">
+           <FormControl fullWidth error={!!errors.bid} size="small" >
+            <InputLabel id="bank-select-label" color="black">Bank</InputLabel>
+            <Select
+              labelId="bank-select-label"
+              value={watch("bid") || ""}
+              label="Bank Name"
+              onChange={(e) => setValue("bid", e.target.value)} color="black"
+              disabled={isEditing}
+              MenuProps={{
+                PaperProps: {
+                  sx: {
+                    maxHeight: 200, // maximum height of dropdown
+                    width: 250,     // width of dropdown
+                  },
+                },
+              }}
+            >
+
               {banks.map((bank) => (
-                <SelectItem key={bank.id} value={bank.id}>
-                  {bank.name}
-                </SelectItem>
+                <MenuItem key={bank.id} value={bank.id} >
+                  {bank.name}-({bank.id})
+                </MenuItem>
               ))}
-            </SelectContent>
-          </Select>
-          {errors.bid && <p className="text-red-500 text-sm">{errors.bid.message}</p>}
+            </Select>
+            {errors.bid && <FormHelperText>{errors.bid.message}</FormHelperText>}
+          </FormControl>
+          
         </div>
 
         {/* Code */}
         <div className="flex flex-col">
-          <Label htmlFor="code">Deposit Code</Label>
-          <Input
-            id="code"
-            {...register("code")}
-            placeholder="Deposit Code"
-            className="mt-2"
-            disabled={isEditing}
-          />
-          {errors.code && <p className="text-red-500 text-sm mt-1">{errors.code.message}</p>}
+           <Controller
+              name="code"
+              control={control}
+              render={({ field, fieldState: { error } }) => (
+                <TextField {...field} label="Deposit Code" size="small" fullWidth error={!!error} helperText={error?.message} color="black" />
+              )}
+            />
+         
         </div>
 
         {/* Description */}
         <div className="flex flex-col">
-          <Label htmlFor="description">Description</Label>
-          <Input
-            id="description"
-            {...register("description")}
-            placeholder="Enter Description"
-            className="mt-2"
-          />
-          {errors.description && <p className="text-red-500 text-sm mt-1">{errors.description.message}</p>}
+           <Controller
+              name="description"
+              control={control}
+              render={({ field, fieldState: { error } }) => (
+                <TextField {...field} label="Description" size="small" fullWidth error={!!error} helperText={error?.message} color="black" />
+              )}
+            />
+         
         </div>
 
         {/* Times */}
         <div className="flex flex-col">
-          <Label htmlFor="times">Times</Label>
-          <Input id="times" {...register("times")} placeholder="Enter Times" className="mt-2" />
-          {errors.times && <p className="text-red-500 text-sm mt-1">{errors.times.message}</p>}
+           <Controller
+              name="times"
+              control={control}
+              render={({ field, fieldState: { error } }) => (
+                <TextField {...field} label="Times" size="small" fullWidth error={!!error} helperText={error?.message} color="black" />
+              )}
+            />
+         
         </div>
 
         {/* Multiples */}
         <div className="flex flex-col">
-          <Label htmlFor="multiples">Multiples</Label>
-          <Input id="multiples" {...register("multiples")} placeholder="Enter Multiples" className="mt-2" />
-          {errors.multiples && <p className="text-red-500 text-sm mt-1">{errors.multiples.message}</p>}
+           <Controller
+              name="multiples"
+              control={control}
+              render={({ field, fieldState: { error } }) => (
+                <TextField {...field} label="Multiples" size="small" fullWidth error={!!error} helperText={error?.message} color="black" />
+              )}
+            />
+        
         </div>
 
         {/* Stmt_Req */}
         <div className="flex flex-col">
-          <Label htmlFor="Stmt_Req">Statement Required</Label>
-          <Input
-            id="Stmt_Req"
-            {...register("Stmt_Req")}
-            placeholder="Enter statement required"
-            className="mt-2"
-          />
-          {errors.Stmt_Req && <p className="text-red-500 text-sm mt-1">{errors.Stmt_Req.message}</p>}
+           <Controller
+              name="Stmt_Req"
+              control={control}
+              render={({ field, fieldState: { error } }) => (
+                <TextField {...field} label="Statement Required" size="small" fullWidth error={!!error} helperText={error?.message} color="black" />
+              )}
+            />
+       
         </div>
       </form>
-    </UserSheet>
+    </Box>
+    </FormDrawer>
   );
 }

@@ -195,7 +195,7 @@ export default function AgentFormDrawer({ agent = null, onSubmit, isOpen, onOpen
           />
 
           {!isEditing && (
-            <Button variant="text" onClick={() => setShowDetails(!showDetails)}>
+            <Button variant="text" onClick={() => setShowDetails(!showDetails)}  sx={{ color: "black", fontFamily: "Inter, sans-serif" }}>
               {showDetails ? "Hide Details" : "Show More Details"}
             </Button>
           )}

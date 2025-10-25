@@ -1,13 +1,15 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { Input } from "../ui/input";
 import { getBankById } from "@/apiservices/bankApi";
 import UserSheet from "../commen/FormSheet";
 import { Label } from "../ui/label";
+import FormDrawer from "../commen/FormDrawer";
+import { Box, TextField } from "@mui/material";
 
 
 const validationSchema = yup.object().shape({
@@ -43,7 +45,7 @@ const validationSchema = yup.object().shape({
   sms_pwd: yup
     .string()
     .required("SMS Password is required.")
-    .min(8, "Password must be at least 8 characters.")
+    .min(6, "Password must be at least 6 characters.")
     .max(200, "Password cannot exceed 200 characters."),
 
   cancel_mode: yup
@@ -68,7 +70,7 @@ const defaultValues = {
 
 export default function BankFormSheet({ bankId = null, onSubmit, isOpen, onOpen, onClose }) {
   const [isEditing, setIsEditing] = useState(false);
-  const { register, handleSubmit, reset, formState: { errors } } = useForm({
+  const { register, control, handleSubmit, reset, formState: { errors } } = useForm({
     resolver: yupResolver(validationSchema),
     defaultValues,
   });
@@ -97,54 +99,89 @@ export default function BankFormSheet({ bankId = null, onSubmit, isOpen, onOpen,
   };
 
   return (
-    <UserSheet
+    <FormDrawer
       title={isEditing ? "Edit Bank" : "Add New Bank"}
       saveLabel={isEditing ? "Save Changes" : "Save"}
       isOpen={isOpen}
-      onOpen={onOpen}
+      onClose={handleCancel}
       onSave={handleSubmit(handleSave)}
-      onCancel={handleCancel}
     >
-      <form id="bank-form" className=" space-y-4">
-      
+      <Box sx={{ flex: 1, overflowY: "auto", p: 2 }}>
+        <form id="bank-form" className=" space-y-4">
 
-           <div className="flex flex-col">
-            <Label htmlFor="times" >Bank ID</Label>
-        <Input {...register("id")} placeholder="Bank ID"  disabled={isEditing} 
-  className={isEditing ? "bg-gray-100 cursor-not-allowed" : "mt-2"} />
-        {errors.id && <p className="text-red-500 text-sm">{errors.id.message}</p>}
-        </div>
- <div className="flex flex-col">
-   <Label htmlFor="times">Bank Name</Label>
-        <Input {...register("name")} placeholder="Bank Name"  className="mt-2"/>
-        {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
-        </div>
- <div className="flex flex-col">
-   <Label htmlFor="times">Bank Address</Label>
-        <textarea {...register("address")} placeholder="Bank Address" rows={3} className="w-full border rounded-md p-2 placeholder:text-[#7A7A73] placeholder:text-sm mt-2" />
-        {errors.address && <p className="text-red-500 text-sm">{errors.address.message}</p>}
-        </div>
- <div className="flex flex-col">
-   <Label htmlFor="times">Bank Phone</Label>
-        <Input {...register("phone")} placeholder="Bank Phone" className="mt-2" />
-        {errors.phone && <p className="text-red-500 text-sm">{errors.phone.message}</p>}
-        </div>
- <div className="flex flex-col">
-   <Label htmlFor="times"> SMS User ID</Label>
-        <Input {...register("sms_uid")} type="email" placeholder="m@example.com" className="mt-2" />
-        {errors.sms_uid && <p className="text-red-500 text-sm">{errors.sms_uid.message}</p>}
-        </div>
- <div className="flex flex-col">
-   <Label htmlFor="times">SMS Password</Label>
-        <Input type="text" {...register("sms_pwd")} placeholder="SMS Password" className="mt-2" />
-        {errors.sms_pwd && <p className="text-red-500 text-sm">{errors.sms_pwd.message}</p>}
-        </div>
- <div className="flex flex-col">
-   <Label htmlFor="times">Cancel Mode</Label>
-        <Input {...register("cancel_mode")} placeholder=" Cancel Mode" className="mt-2"/>
-        {errors.cancel_mode && <p className="text-red-500 text-sm">{errors.cancel_mode.message}</p>}
-        </div>
-      </form>
-    </UserSheet>
+
+          <div className="flex flex-col">
+            <Controller
+              name="id"
+              control={control}
+              render={({ field, fieldState: { error } }) => (
+                <TextField {...field} label="Bank ID" size="small" fullWidth error={!!error} helperText={error?.message} color="black"  disabled={isEditing} />
+              )}
+            />
+           
+          </div>
+          <div className="flex flex-col">
+            <Controller
+              name="name"
+              control={control}
+              render={({ field, fieldState: { error } }) => (
+                <TextField {...field} label="Bank Name" size="small" fullWidth error={!!error} helperText={error?.message} color="black" />
+              )}
+            />
+           
+          </div>
+          <div className="flex flex-col">
+            <Controller
+              name="address"
+              control={control}
+              render={({ field, fieldState: { error } }) => (
+                <TextField {...field} label="Bank Address" size="small" fullWidth error={!!error} helperText={error?.message} color="black" multiline rows={4} />
+              )}
+            />
+          
+          </div>
+          <div className="flex flex-col">
+            <Controller
+              name="phone"
+              control={control}
+              render={({ field, fieldState: { error } }) => (
+                <TextField {...field} label="Bank Phone" size="small" fullWidth error={!!error} helperText={error?.message} color="black" />
+              )}
+            />
+           
+          </div>
+          <div className="flex flex-col">
+            <Controller
+              name="sms_uid"
+              control={control}
+              render={({ field, fieldState: { error } }) => (
+                <TextField {...field} label="SMS User ID" type="email" size="small" fullWidth error={!!error} helperText={error?.message} color="black" />
+              )}
+            />
+           
+          </div>
+          <div className="flex flex-col">
+            <Controller
+              name="sms_pwd"
+              control={control}
+              render={({ field, fieldState: { error } }) => (
+                <TextField {...field} label="SMS Password" size="small" fullWidth error={!!error} helperText={error?.message} color="black" />
+              )}
+            />
+           
+          </div>
+          <div className="flex flex-col">
+            <Controller
+              name="cancel_mode"
+              control={control}
+              render={({ field, fieldState: { error } }) => (
+                <TextField {...field} label="Cancel Mode" size="small" fullWidth error={!!error} helperText={error?.message} color="black" />
+              )}
+            />
+           
+          </div>
+        </form>
+      </Box>
+    </FormDrawer>
   );
 }

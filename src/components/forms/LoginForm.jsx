@@ -91,18 +91,19 @@ const handleTogglePassword = () => setShowPassword((prev) => !prev);
 />
 
 
-            <a
-              href="/forgotpassword"
-              className="text-sm hover:text-blue-800 flex justify-center"
-            >
-              Forgot your password?
-            </a>
+           
           </CardContent>
 
           <CardFooter className="flex-col gap-2">
             <Button type="submit" className="w-full" disabled={isSubmitting}>
               {isSubmitting ? "Logging in..." : "Login"}
             </Button>
+             <a
+              href="/forgotpassword"
+              className="text-sm hover:text-blue-800 flex justify-center"
+            >
+              Forgot your password?
+            </a>
           </CardFooter>
         </form>
       </Card>

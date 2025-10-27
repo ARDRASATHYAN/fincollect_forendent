@@ -40,7 +40,7 @@ export function LoginForm() {
       success("Login successfully");
       navigate("/bank");
     } catch (err) {
-      showError(err?.message || "Login failed");
+      showError(err|| "Login failed");
     }
   };
 

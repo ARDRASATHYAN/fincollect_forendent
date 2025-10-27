@@ -27,7 +27,7 @@ export default function AgentPreviewSheet({ agent = null, isOpen, onOpen, onClos
 
     return (
         <PreviewSheet
-            title={`${agent.name}-${agent.mname}`}
+            title={`${agent.name}`}
             isOpen={isOpen}
             onOpen={onOpen}
             onCancel={handleCancel}

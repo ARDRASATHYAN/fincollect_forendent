@@ -6,6 +6,7 @@ import * as yup from "yup";
 import { TextField, Drawer, Box, Typography, Button, FormControl, InputLabel, Select, MenuItem, FormHelperText, Switch as MuiSwitch } from "@mui/material";
 import { getBanks } from "@/apiservices/bankApi";
 import FormDrawer from "../commen/FormDrawer";
+import IOSSwitch from "../commen/IOSSwitch";
 
 // Validation schema
 const validationSchema = yup.object().shape({
@@ -263,59 +264,19 @@ export default function AgentFormDrawer({ agent = null, onSubmit, isOpen, onOpen
               {/* Switches */}
               <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
                 <Typography>Enabled</Typography>
-                <MuiSwitch checked={watch("enabled")} onChange={(e) => setValue("enabled", e.target.checked)} sx={{
-                  "& .MuiSwitch-switchBase.Mui-checked": {
-                    color: "#000", 
-                    "&:hover": {
-                      backgroundColor: "rgba(0, 0, 0, 0.08)",
-                    },
-                  },
-                  "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
-                    backgroundColor: "#000", 
-                  },
-                }} />
+                <IOSSwitch checked={watch("enabled")} onChange={(e) => setValue("enabled", e.target.checked)}  />
               </Box>
               <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
                 <Typography>SMS Required</Typography>
-                <MuiSwitch checked={watch("sms_required")} onChange={(e) => setValue("sms_required", e.target.checked)} sx={{
-                  "& .MuiSwitch-switchBase.Mui-checked": {
-                    color: "#000", 
-                    "&:hover": {
-                      backgroundColor: "rgba(0, 0, 0, 0.08)",
-                    },
-                  },
-                  "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
-                    backgroundColor: "#000", 
-                  },
-                }} />
+                <IOSSwitch checked={watch("sms_required")} onChange={(e) => setValue("sms_required", e.target.checked)} />
               </Box>
               <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
                 <Typography>Print Required</Typography>
-                <MuiSwitch checked={watch("print_required")} onChange={(e) => setValue("print_required", e.target.checked)} sx={{
-                  "& .MuiSwitch-switchBase.Mui-checked": {
-                    color: "#000", 
-                    "&:hover": {
-                      backgroundColor: "rgba(0, 0, 0, 0.08)",
-                    },
-                  },
-                  "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
-                    backgroundColor: "#000", 
-                  },
-                }} />
+                <IOSSwitch checked={watch("print_required")} onChange={(e) => setValue("print_required", e.target.checked)}  />
               </Box>
               <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
                 <Typography>Collection Status</Typography>
-                <MuiSwitch checked={watch("collection_status")} onChange={(e) => setValue("collection_status", e.target.checked)} sx={{
-                  "& .MuiSwitch-switchBase.Mui-checked": {
-                    color: "#000", 
-                    "&:hover": {
-                      backgroundColor: "rgba(0, 0, 0, 0.08)",
-                    },
-                  },
-                  "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
-                    backgroundColor: "#000", 
-                  },
-                }} />
+                <IOSSwitch checked={watch("collection_status")} onChange={(e) => setValue("collection_status", e.target.checked)}  />
               </Box>
             </>
           )}

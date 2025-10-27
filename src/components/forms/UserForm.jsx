@@ -94,7 +94,7 @@ export default function UserForm({ user = null, onSubmit, isOpen, onOpen, onClos
               name="name"
               control={control}
               render={({ field, fieldState: { error } }) => (
-                <TextField {...field} label="Name" size="small" fullWidth error={!!error} helperText={error?.message} color="black" />
+                <TextField {...field} label="Name" size="small" fullWidth error={!!error} helperText={error?.message} color="black" autoComplete="new-name" inputProps={{name: "name_field",autoCorrect: "off"}}/>
               )}
             />
 
@@ -104,9 +104,10 @@ export default function UserForm({ user = null, onSubmit, isOpen, onOpen, onClos
               name="email"
               control={control}
               render={({ field, fieldState: { error } }) => (
-                <TextField {...field} label="Email" size="small" fullWidth error={!!error} helperText={error?.message} color="black" />
+                <TextField {...field} label="Email" size="small" fullWidth error={!!error} helperText={error?.message} color="black" autoComplete="new-hi" inputProps={{name: "random_field_xyz",autoCorrect: "off"}} />
               )}
             />
+
 
 
             <FormControl fullWidth size="small" error={!!errors.role} sx={{ mt: 2 }}>
@@ -131,7 +132,7 @@ export default function UserForm({ user = null, onSubmit, isOpen, onOpen, onClos
               name="password"
               control={control}
               render={({ field, fieldState: { error } }) => (
-                <TextField {...field} label="Password" size="small" fullWidth error={!!error} helperText={error?.message} color="black" disabled={isEditing} />
+                <TextField {...field} label="Password" size="small" fullWidth error={!!error} helperText={error?.message} color="black" disabled={isEditing} autoComplete="new-pwd" inputProps={{name: "pwd_field",autoCorrect: "off"}}/>
               )}
             />
 

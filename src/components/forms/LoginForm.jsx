@@ -52,7 +52,7 @@ export function LoginForm() {
           <h1 className="font-bold text-lg flex justify-center">Fincollect</h1>
         </CardHeader>
 
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} autoComplete="off" autoCorrect="off">
           <CardContent className="flex flex-col gap-3">
             <TextField
               label="Email"

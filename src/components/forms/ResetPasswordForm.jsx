@@ -48,7 +48,7 @@ export default function ResetPassword() {
           <h2 className="text-lg font-bold ">Reset Password</h2>
         </CardHeader>
 
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} autoComplete="off" autoCorrect="off">
           <CardContent className="flex flex-col gap-4">
             <TextField
               label="New Password"

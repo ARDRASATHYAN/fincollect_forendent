@@ -32,7 +32,7 @@ export default function AgentPreviewSheet({ agent = null, isOpen, onOpen, onClos
             onOpen={onOpen}
             onCancel={handleCancel}
         >
-            <div className="space-y-4 p-2 text-sm">
+            <div className=" p-2 text-sm">
                 {/* Bank */}
                 <div>
                     <Label className="font-semibold text-gray-600">Bank</Label>

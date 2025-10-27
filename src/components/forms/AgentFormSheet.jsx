@@ -155,7 +155,7 @@ export default function AgentFormDrawer({ agent = null, onSubmit, isOpen, onOpen
             name="branch"
             control={control}
             render={({ field, fieldState: { error } }) => (
-              <TextField {...field} label="Branch" size="small" fullWidth error={!!error} helperText={error?.message} color="black" />
+              <TextField {...field} label="Branch" size="small" fullWidth error={!!error} helperText={error?.message} color="black" autoComplete="new-branch" inputProps={{name: "bank_branch_field",autoCorrect: "off"}}/>
             )}
           />
 
@@ -164,7 +164,7 @@ export default function AgentFormDrawer({ agent = null, onSubmit, isOpen, onOpen
             name="id"
             control={control}
             render={({ field, fieldState: { error } }) => (
-              <TextField {...field} label="ID" size="small" fullWidth error={!!error} helperText={error?.message} disabled={isEditing} color="black" />
+              <TextField {...field} label="ID" size="small" fullWidth error={!!error} helperText={error?.message} disabled={isEditing} color="black" autoComplete="new-id" inputProps={{name: "agent_id_field",autoCorrect: "off"}}/>
             )}
           />
 
@@ -173,7 +173,7 @@ export default function AgentFormDrawer({ agent = null, onSubmit, isOpen, onOpen
             name="name"
             control={control}
             render={({ field, fieldState: { error } }) => (
-              <TextField {...field} label="Name" size="small" fullWidth error={!!error} helperText={error?.message} color="black" />
+              <TextField {...field} label="Name" size="small" fullWidth error={!!error} helperText={error?.message} color="black" autoComplete="new-name" inputProps={{name: "agent_name_field",autoCorrect: "off"}}/>
             )}
           />
 
@@ -182,7 +182,7 @@ export default function AgentFormDrawer({ agent = null, onSubmit, isOpen, onOpen
             name="mname"
             control={control}
             render={({ field, fieldState: { error } }) => (
-              <TextField {...field} label="Name in Malayalam" size="small" fullWidth error={!!error} helperText={error?.message} color="black" />
+              <TextField {...field} label="Name in Malayalam" size="small" fullWidth error={!!error} helperText={error?.message} color="black" autoComplete="new-mname" inputProps={{name: "agent_mname_field",autoCorrect: "off"}}/>
             )}
           />
 
@@ -191,7 +191,7 @@ export default function AgentFormDrawer({ agent = null, onSubmit, isOpen, onOpen
             name="mobile"
             control={control}
             render={({ field, fieldState: { error } }) => (
-              <TextField {...field} label="Mobile" size="small" fullWidth error={!!error} helperText={error?.message} color="black" />
+              <TextField {...field} label="Mobile" size="small" fullWidth error={!!error} helperText={error?.message} color="black" autoComplete="new-phone" inputProps={{name: "agent_phone_field",autoCorrect: "off"}}/>
             )}
           />
 
@@ -223,7 +223,7 @@ export default function AgentFormDrawer({ agent = null, onSubmit, isOpen, onOpen
                 name="pwd"
                 control={control}
                 render={({ field, fieldState: { error } }) => (
-                  <TextField {...field} label="Password" size="small" fullWidth error={!!error} helperText={error?.message} color="black" />
+                  <TextField {...field} label="Password" size="small" fullWidth error={!!error} helperText={error?.message} color="black" autoComplete="new-pwd" inputProps={{name: "pwd_field",autoCorrect: "off"}}/>
                 )}
               />
 
@@ -232,7 +232,7 @@ export default function AgentFormDrawer({ agent = null, onSubmit, isOpen, onOpen
                 name="pin"
                 control={control}
                 render={({ field, fieldState: { error } }) => (
-                  <TextField {...field} label="PIN" size="small" fullWidth error={!!error} helperText={error?.message} color="black" />
+                  <TextField {...field} label="PIN" size="small" fullWidth error={!!error} helperText={error?.message} color="black" autoComplete="new-pin" inputProps={{name: "pin_field",autoCorrect: "off"}}/>
                 )}
               />
 
@@ -241,7 +241,7 @@ export default function AgentFormDrawer({ agent = null, onSubmit, isOpen, onOpen
                 name="pwd_expiry_days"
                 control={control}
                 render={({ field, fieldState: { error } }) => (
-                  <TextField {...field} label="Password expiry days" size="small" fullWidth error={!!error} helperText={error?.message} color="black" />
+                  <TextField {...field} label="Password expiry days" size="small" fullWidth error={!!error} helperText={error?.message} color="black" autoComplete="new-expiry" inputProps={{name: "expiry_field",autoCorrect: "off"}} />
                 )}
               />
 
@@ -250,14 +250,14 @@ export default function AgentFormDrawer({ agent = null, onSubmit, isOpen, onOpen
                 name="pinloginattempt"
                 control={control}
                 render={({ field, fieldState: { error } }) => (
-                  <TextField {...field} label="PIN Login Attempt" size="small" fullWidth error={!!error} helperText={error?.message} color="black" />
+                  <TextField {...field} label="PIN Login Attempt" size="small" fullWidth error={!!error} helperText={error?.message} color="black" autoComplete="new-login" inputProps={{name: "login_field",autoCorrect: "off"}} />
                 )}
               />
               <Controller
                 name="pwdloginattempt"
                 control={control}
                 render={({ field, fieldState: { error } }) => (
-                  <TextField {...field} label="Password Login Attempt" size="small" fullWidth error={!!error} helperText={error?.message} />
+                  <TextField {...field} label="Password Login Attempt" size="small" fullWidth error={!!error} helperText={error?.message} color="black" autoComplete="new-attempt" inputProps={{name: "attempt_field",autoCorrect: "off"}} />
                 )}
               />
 

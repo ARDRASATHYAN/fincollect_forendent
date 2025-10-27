@@ -115,7 +115,7 @@ export default function BankFormSheet({ bankId = null, onSubmit, isOpen, onOpen,
               name="id"
               control={control}
               render={({ field, fieldState: { error } }) => (
-                <TextField {...field} label="Bank ID" size="small" fullWidth error={!!error} helperText={error?.message} color="black"  disabled={isEditing} />
+                <TextField {...field} label="Bank ID" size="small" fullWidth error={!!error} helperText={error?.message} color="black"  disabled={isEditing} autoComplete="new-id" inputProps={{name: "bank_id_field",autoCorrect: "off"}}/>
               )}
             />
            
@@ -125,7 +125,7 @@ export default function BankFormSheet({ bankId = null, onSubmit, isOpen, onOpen,
               name="name"
               control={control}
               render={({ field, fieldState: { error } }) => (
-                <TextField {...field} label="Bank Name" size="small" fullWidth error={!!error} helperText={error?.message} color="black" />
+                <TextField {...field} label="Bank Name" size="small" fullWidth error={!!error} helperText={error?.message} color="black" autoComplete="new-name" inputProps={{name: "bank_name_field",autoCorrect: "off"}}/>
               )}
             />
            
@@ -135,7 +135,7 @@ export default function BankFormSheet({ bankId = null, onSubmit, isOpen, onOpen,
               name="address"
               control={control}
               render={({ field, fieldState: { error } }) => (
-                <TextField {...field} label="Bank Address" size="small" fullWidth error={!!error} helperText={error?.message} color="black" multiline rows={4} />
+                <TextField {...field} label="Bank Address" size="small" fullWidth error={!!error} helperText={error?.message} color="black" multiline rows={4} autoComplete="new-address" inputProps={{name: "bank_address_field",autoCorrect: "off"}}/>
               )}
             />
           
@@ -145,7 +145,7 @@ export default function BankFormSheet({ bankId = null, onSubmit, isOpen, onOpen,
               name="phone"
               control={control}
               render={({ field, fieldState: { error } }) => (
-                <TextField {...field} label="Bank Phone" size="small" fullWidth error={!!error} helperText={error?.message} color="black" />
+                <TextField {...field} label="Bank Phone" size="small" fullWidth error={!!error} helperText={error?.message} color="black" autoComplete="new-phone" inputProps={{name: "bank_phone_field",autoCorrect: "off"}}/>
               )}
             />
            
@@ -155,7 +155,7 @@ export default function BankFormSheet({ bankId = null, onSubmit, isOpen, onOpen,
               name="sms_uid"
               control={control}
               render={({ field, fieldState: { error } }) => (
-                <TextField {...field} label="SMS User ID" type="email" size="small" fullWidth error={!!error} helperText={error?.message} color="black" />
+                <TextField {...field} label="SMS User ID" type="email" size="small" fullWidth error={!!error} helperText={error?.message} color="black" autoComplete="new-uid" inputProps={{name: "bank_uid_field",autoCorrect: "off"}} />
               )}
             />
            
@@ -165,7 +165,7 @@ export default function BankFormSheet({ bankId = null, onSubmit, isOpen, onOpen,
               name="sms_pwd"
               control={control}
               render={({ field, fieldState: { error } }) => (
-                <TextField {...field} label="SMS Password" size="small" fullWidth error={!!error} helperText={error?.message} color="black" />
+                <TextField {...field} label="SMS Password" size="small" fullWidth error={!!error} helperText={error?.message} color="black" autoComplete="new-pwd" inputProps={{name: "bank_pwd_field",autoCorrect: "off"}}/>
               )}
             />
            
@@ -175,7 +175,7 @@ export default function BankFormSheet({ bankId = null, onSubmit, isOpen, onOpen,
               name="cancel_mode"
               control={control}
               render={({ field, fieldState: { error } }) => (
-                <TextField {...field} label="Cancel Mode" size="small" fullWidth error={!!error} helperText={error?.message} color="black" />
+                <TextField {...field} label="Cancel Mode" size="small" fullWidth error={!!error} helperText={error?.message} color="black" autoComplete="new-cancel" inputProps={{name: "bank_cancel_field",autoCorrect: "off"}}/>
               )}
             />
            

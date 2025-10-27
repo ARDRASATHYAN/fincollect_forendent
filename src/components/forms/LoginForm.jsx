@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
@@ -10,7 +10,8 @@ import { loginUser } from "@/apiservices/userApi";
 import { useNavigate } from "react-router-dom";
 import useToast from "@/hooks/useToast";
 import logo from "../../assets/fincollect.png";
-import { TextField } from "@mui/material";
+import { IconButton, InputAdornment, TextField } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 // Yup validation schema
 const schema = Yup.object().shape({
@@ -25,6 +26,10 @@ const schema = Yup.object().shape({
 export function LoginForm() {
   const navigate = useNavigate();
   const { success, error: showError } = useToast();
+  const [showPassword, setShowPassword] = useState(false);
+
+const handleTogglePassword = () => setShowPassword((prev) => !prev);
+
 
   const {
     register,
@@ -40,7 +45,7 @@ export function LoginForm() {
       success("Login successfully");
       navigate("/bank");
     } catch (err) {
-      showError(err|| "Login failed");
+      showError(err || "Login failed");
     }
   };
 
@@ -65,16 +70,26 @@ export function LoginForm() {
               helperText={errors.email?.message}
             />
 
-            <TextField
-              label="Password"
-              type="password"
-              size="small"
-              fullWidth
-              color="black"
-              {...register("password")}
-              error={!!errors.password}
-              helperText={errors.password?.message}
-            />
+           <TextField
+  label="Password"
+  type={showPassword ? "text" : "password"}
+  size="small"
+  fullWidth
+  color="black"
+  {...register("password")}
+  error={!!errors.password}
+  helperText={errors.password?.message}
+  InputProps={{
+    endAdornment: (
+      <InputAdornment position="end">
+        <IconButton onClick={handleTogglePassword} edge="end">
+          {showPassword ? <VisibilityOff /> : <Visibility />}
+        </IconButton>
+      </InputAdornment>
+    ),
+  }}
+/>
+
 
             <a
               href="/forgotpassword"

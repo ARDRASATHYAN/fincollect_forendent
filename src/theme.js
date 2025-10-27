@@ -15,6 +15,23 @@ const theme = createTheme({
         },
       },
     },
+    MuiInputLabel: {
+      styleOverrides: {
+        root: {
+          color: "#BDB9B9",
+         
+          "&.Mui-focused": {
+            color: "#000000",
+          },
+          "&.MuiInputLabel-shrink": {
+            color: "#000000",
+          },
+          "&.Mui-disabled": {
+            color: "#9ca3af",
+          },
+        },
+      },
+    },
   },
 });
 export default theme;

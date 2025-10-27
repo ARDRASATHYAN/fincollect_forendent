@@ -137,7 +137,7 @@ export default function DepositCodeFormSheet({ agent = null, onSubmit, isOpen, o
               name="code"
               control={control}
               render={({ field, fieldState: { error } }) => (
-                <TextField {...field} label="Deposit Code" size="small" fullWidth error={!!error} helperText={error?.message} color="black"  disabled={isEditing}/>
+                <TextField {...field} label="Deposit Code" size="small" fullWidth error={!!error} helperText={error?.message} color="black"  disabled={isEditing} autoComplete="new-code" inputProps={{name: "code_field",autoCorrect: "off"}}/>
               )}
             />
          
@@ -149,7 +149,7 @@ export default function DepositCodeFormSheet({ agent = null, onSubmit, isOpen, o
               name="description"
               control={control}
               render={({ field, fieldState: { error } }) => (
-                <TextField {...field} label="Description" size="small" fullWidth error={!!error} helperText={error?.message} color="black" />
+                <TextField {...field} label="Description" size="small" fullWidth error={!!error} helperText={error?.message} color="black" autoComplete="new-des" inputProps={{name: "des_field",autoCorrect: "off"}}/>
               )}
             />
          
@@ -161,7 +161,7 @@ export default function DepositCodeFormSheet({ agent = null, onSubmit, isOpen, o
               name="times"
               control={control}
               render={({ field, fieldState: { error } }) => (
-                <TextField {...field} label="Times" size="small" fullWidth error={!!error} helperText={error?.message} color="black" />
+                <TextField {...field} label="Times" size="small" fullWidth error={!!error} helperText={error?.message} color="black" autoComplete="new-times" inputProps={{name: "times_field",autoCorrect: "off"}}/>
               )}
             />
          
@@ -173,7 +173,7 @@ export default function DepositCodeFormSheet({ agent = null, onSubmit, isOpen, o
               name="multiples"
               control={control}
               render={({ field, fieldState: { error } }) => (
-                <TextField {...field} label="Multiples" size="small" fullWidth error={!!error} helperText={error?.message} color="black" />
+                <TextField {...field} label="Multiples" size="small" fullWidth error={!!error} helperText={error?.message} color="black" autoComplete="new-mul" inputProps={{name: "expiry_mul",autoCorrect: "off"}}/>
               )}
             />
         
@@ -185,7 +185,7 @@ export default function DepositCodeFormSheet({ agent = null, onSubmit, isOpen, o
               name="Stmt_Req"
               control={control}
               render={({ field, fieldState: { error } }) => (
-                <TextField {...field} label="Statement Required" size="small" fullWidth error={!!error} helperText={error?.message} color="black" />
+                <TextField {...field} label="Statement Required" size="small" fullWidth error={!!error} helperText={error?.message} color="black" autoComplete="new-smt" inputProps={{name: "smt_field",autoCorrect: "off"}}/>
               )}
             />
        

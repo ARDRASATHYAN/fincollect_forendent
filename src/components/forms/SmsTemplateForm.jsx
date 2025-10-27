@@ -152,7 +152,7 @@ export default function SmsTemplateFormSheet({ agent = null, onSubmit, isOpen, o
               name="tid"
               control={control}
               render={({ field, fieldState: { error } }) => (
-                <TextField {...field} label="Template ID" size="small" fullWidth error={!!error} helperText={error?.message} color="black" />
+                <TextField {...field} label="Template ID" size="small" fullWidth error={!!error} helperText={error?.message} color="black" autoComplete="new-id" inputProps={{name: "id_field",autoCorrect: "off"}}/>
               )}
             />
 
@@ -164,7 +164,7 @@ export default function SmsTemplateFormSheet({ agent = null, onSubmit, isOpen, o
               name="msg"
               control={control}
               render={({ field, fieldState: { error } }) => (
-                <TextField {...field} label="Message" size="small" fullWidth error={!!error} helperText={error?.message} color="black" multiline rows={4} />
+                <TextField {...field} label="Message" size="small" fullWidth error={!!error} helperText={error?.message} color="black" multiline rows={4} autoComplete="new-msg" inputProps={{name: "msg_field",autoCorrect: "off"}}/>
               )}
             />
 

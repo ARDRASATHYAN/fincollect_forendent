@@ -137,7 +137,7 @@ export default function DepositCodeFormSheet({ agent = null, onSubmit, isOpen, o
               name="code"
               control={control}
               render={({ field, fieldState: { error } }) => (
-                <TextField {...field} label="Deposit Code" size="small" fullWidth error={!!error} helperText={error?.message} color="black" />
+                <TextField {...field} label="Deposit Code" size="small" fullWidth error={!!error} helperText={error?.message} color="black"  disabled={isEditing}/>
               )}
             />
          

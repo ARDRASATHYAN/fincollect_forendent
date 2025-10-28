@@ -28,6 +28,9 @@ apiClient.interceptors.response.use(
       originalRequest._retry = true;
       try {
         const newToken = await refreshToken();
+
+        localStorage.setItem("accessToken", newToken);
+        
         originalRequest.headers.Authorization = `Bearer ${newToken}`;
         return apiClient(originalRequest);
       } catch (err) {

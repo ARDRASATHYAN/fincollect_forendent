@@ -26,7 +26,7 @@ const defaultValues = {
   bid: "",
   code: "",
   description: "",
-  times: 0,
+  times: 1,
   multiples: 0,
   Stmt_Req: 0,
 
@@ -161,7 +161,7 @@ export default function DepositCodeFormSheet({ agent = null, onSubmit, isOpen, o
               name="times"
               control={control}
               render={({ field, fieldState: { error } }) => (
-                <TextField {...field} label="Times" size="small" fullWidth error={!!error} helperText={error?.message} color="black" autoComplete="new-times" inputProps={{name: "times_field",autoCorrect: "off"}}/>
+                <TextField {...field} label="Max no of transaction in a day" size="small" fullWidth error={!!error} helperText={error?.message} color="black" autoComplete="new-times" inputProps={{name: "times_field",autoCorrect: "off"}}/>
               )}
             />
          

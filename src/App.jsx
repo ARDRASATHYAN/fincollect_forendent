@@ -9,6 +9,7 @@ import UserList from "./pages/users/UsersList";
 import { LoginForm } from "./components/forms/LoginForm";
 import ResetPassword from "./components/forms/ResetPasswordForm";
 import { ForgotPassword } from "./components/forms/ForgotPasswordForm";
+import BuserList from "./pages/buser/BuserList";
 
 // blocks access if no valid tokens
 export const ProtectedRoute = ({ children }) => {
@@ -50,6 +51,7 @@ export default function App() {
           <Route path="/depositcode" element={<ProtectedRoute><DepositCodeList /></ProtectedRoute>} />
           <Route path="/smstemplate" element={<ProtectedRoute><SmsTemplateLists /></ProtectedRoute>} />
           <Route path="/user" element={<ProtectedRoute><UserList /></ProtectedRoute>} />
+           <Route path="/buser" element={<ProtectedRoute><BuserList /></ProtectedRoute>} />
           <Route path="/forgotpassword" element={< ForgotPassword/>} />
           <Route path="/resetpassword/:token" element={<ResetPassword />} />
 

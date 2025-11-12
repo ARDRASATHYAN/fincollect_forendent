@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { RxDashboard } from "react-icons/rx";
 import { LogOut } from "lucide-react";
 import { PiBankFill } from "react-icons/pi";
-import { FaUser, FaUsers } from "react-icons/fa";
+import { FaUser, FaUsers, FaUserTie } from "react-icons/fa";
 import { MdTextsms } from "react-icons/md";
 import { ImMenu } from "react-icons/im";
 import logo from "../../assets/fincollect.png";
@@ -26,6 +26,7 @@ export default function Sidebar({ children }) {
     { icon: <FaUser />, name: "Agent", href: "/agent" },
     { icon: <RxDashboard />, name: "Deposit Code", href: "/depositcode" },
     { icon: <MdTextsms />, name: "SMS Template", href: "/smstemplate" },
+     { icon: <FaUserTie />, name: "BUSER", href: "/buser" },
     ...(user?.role === "admin"
       ? [{ icon: <FaUsers />, name: "UserList", href: "/user" }]
       : []),

@@ -40,7 +40,7 @@ export default function BankPanel({ bank, banks = [], onSelectBank }) {
       </div>
 
       {/* Bank Info */}
-      <div className="flex items-start justify-between gap-3">
+      <div className="flex items-start justify-between gap-3 pb-2">
         <div className="flex items-center gap-2">
           <div
             className="w-10 h-10 rounded-lg"
@@ -70,7 +70,7 @@ export default function BankPanel({ bank, banks = [], onSelectBank }) {
         <h5 className="text-sm font-medium text-slate-700 mb-2">
           Branch distribution
         </h5>
-       <div style={{ width: "100%", height: 240, paddingBottom: "20px" }}>
+        <div style={{ width: "100%", height: 240 }}>
   <ResponsiveContainer>
     <PieChart>
       <Pie
@@ -90,22 +90,30 @@ export default function BankPanel({ bank, banks = [], onSelectBank }) {
           />
         ))}
       </Pie>
-
-      {/* Add small margin below the legend */}
-      <Legend
-        verticalAlign="bottom"
-        height={36}
-        wrapperStyle={{ marginTop: 10 }}
-      />
     </PieChart>
   </ResponsiveContainer>
+
+  {/* Legend below chart, outside of container */}
+   <div className="mb-4 flex flex-wrap justify-center gap-3 text-xs text-slate-600">
+      {pieData.map((entry, index) => (
+        <div key={entry.name} className="flex items-center gap-1">
+          <span
+            className="w-3 h-3 rounded-sm"
+            style={{
+              background: bank.color || COLORS[index % COLORS.length],
+            }}
+          ></span>
+          {entry.name}
+        </div>
+      ))}
+    </div>
 </div>
 
 
         {/* Branch List */}
         <div className="mt-3 p-2">
           <h6 className="text-xs text-slate-500 mb-2">Branches</h6>
-          <div className="space-y-2 overflow-y-auto pr-2 max-h-56 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+          <div className="space-y-2 overflow-y-auto pr-2 max-h-[150px] scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
             {(bank.branches || []).map((br) => (
               <div
                 key={br.name}

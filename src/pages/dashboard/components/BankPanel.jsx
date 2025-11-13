@@ -75,7 +75,7 @@ export default function BankPanel({ bank, banks = [], onSelectBank }) {
         <h5 className="text-sm font-medium text-slate-700 mb-2">
           Branch distribution
         </h5>
-        <div style={{ width: "100%", height: 220 }}>
+        <div style={{ width: "100%", height: 220 }} className="pb-2">
           <ResponsiveContainer>
             <PieChart>
               <Pie

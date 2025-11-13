@@ -5,7 +5,6 @@ import { PieChart, Pie, Cell, Legend, ResponsiveContainer } from "recharts";
 const COLORS = ["#6366F1", "#06B6D4", "#10B981", "#F59E0B", "#EF4444"];
 
 export default function BankPanel({ bank, banks = [], onSelectBank }) {
-  // 🧩 Prevent crash if bank is not yet loaded
   if (!bank) {
     return (
       <div className="bg-white rounded-2xl p-5 shadow-md border border-gray-100 text-center text-gray-500">
@@ -27,7 +26,6 @@ export default function BankPanel({ bank, banks = [], onSelectBank }) {
           value={bank?.id?.toString() || ""}
           onValueChange={(value) => onSelectBank(value)}
         >
-
           <SelectTrigger className="w-full border text-sm focus:ring-2 focus:ring-indigo-500">
             <SelectValue placeholder="Choose bank" />
           </SelectTrigger>
@@ -39,7 +37,6 @@ export default function BankPanel({ bank, banks = [], onSelectBank }) {
             ))}
           </SelectContent>
         </Select>
-
       </div>
 
       {/* Bank Info */}
@@ -54,9 +51,7 @@ export default function BankPanel({ bank, banks = [], onSelectBank }) {
             }}
           />
           <div>
-            <div className="text-sm font-semibold text-slate-800">
-              {bank.name}
-            </div>
+            <div className="text-sm font-semibold text-slate-800">{bank.name}</div>
             <div className="text-xs text-slate-500">
               Established {bank.established || "N/A"}
             </div>
@@ -75,7 +70,7 @@ export default function BankPanel({ bank, banks = [], onSelectBank }) {
         <h5 className="text-sm font-medium text-slate-700 mb-2">
           Branch distribution
         </h5>
-        <div style={{ width: "100%", height: 220 }} className="pb-2">
+        <div style={{ width: "100%", height: 220 }}>
           <ResponsiveContainer>
             <PieChart>
               <Pie
@@ -100,18 +95,16 @@ export default function BankPanel({ bank, banks = [], onSelectBank }) {
           </ResponsiveContainer>
         </div>
 
-        {/* Branch list */}
+        {/* Branch List */}
         <div className="mt-3 p-2">
           <h6 className="text-xs text-slate-500 mb-2">Branches</h6>
-          <div className="space-y-2 overflow-auto pr-2 max-h-50">
+          <div className="space-y-2 overflow-y-auto pr-2 max-h-56 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
             {(bank.branches || []).map((br) => (
               <div
                 key={br.name}
                 className="flex items-center justify-between bg-slate-50 p-2 rounded-lg"
               >
-                <div className="text-sm font-medium text-slate-800">
-                  {br.name}
-                </div>
+                <div className="text-sm font-medium text-slate-800">{br.name}</div>
                 <div className="text-sm font-semibold text-slate-800">
                   {br.agents}
                 </div>

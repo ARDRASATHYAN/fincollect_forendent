@@ -27,7 +27,7 @@ const DataTable = ({ columns, data, onRowClick, striped = true,loading = false }
   const adjustRowsByHeight = () => {
     const screenHeight = window.innerHeight;
     const headerHeight = 140; // adjust for your topbar/sidebar
-    const rowHeight = 34; // average row height
+    const rowHeight = 36; // average row height
     const availableHeight = screenHeight - headerHeight;
     const rows = Math.floor(availableHeight / rowHeight);
     const pageSize = Math.max(5, Math.min(rows, 100));

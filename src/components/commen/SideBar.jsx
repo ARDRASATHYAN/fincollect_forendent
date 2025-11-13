@@ -28,9 +28,9 @@ export default function Sidebar({ children }) {
     { icon: <FaUser />, name: "Agent", href: "/agent" },
     { icon: <RxDashboard />, name: "Deposit Code", href: "/depositcode" },
     { icon: <MdTextsms />, name: "SMS Template", href: "/smstemplate" },
-     { icon: <FaUserTie />, name: "BUSER", href: "/buser" },
+     { icon: <FaUserTie />, name: "Bank Staff", href: "/buser" },
     ...(user?.role === "admin"
-      ? [{ icon: <FaUsers />, name: "UserList", href: "/user" }]
+      ? [{ icon: <FaUsers />, name: "Maxence Users", href: "/user" }]
       : []),
   ];
 

@@ -2,7 +2,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import React from "react";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 
-const COLORS = ["#6366F1", "#06B6D4", "#10B981", "#F59E0B", "#EF4444", "#8B5CF6", "#EC4899"];
+const COLORS = ["#6366F1","#06B6D4","#10B981","#F59E0B",
+      "#EF4444","#170939ff","#FB7185","#0EA5E9",
+      "#7C3AED","#F97316","#14B8A6","#0EA5E9"];
 
 export default function BankPanel({ bank, banks = [], onSelectBank }) {
   if (!bank) {

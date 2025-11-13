@@ -20,7 +20,7 @@ export default function BankPanel({ bank, banks = [], onSelectBank }) {
 
   return (
     <div className="bg-white rounded-2xl p-5 shadow-md border border-gray-100">
-      {/* 🏦 Bank Selector */}
+     
       <div className="mb-4">
         <Select
           value={bank?.id?.toString() || ""}
@@ -52,9 +52,7 @@ export default function BankPanel({ bank, banks = [], onSelectBank }) {
           />
           <div>
             <div className="text-sm font-semibold text-slate-800">{bank.name}</div>
-            <div className="text-xs text-slate-500">
-              Established {bank.established || "N/A"}
-            </div>
+            
           </div>
         </div>
         <div className="text-right">
@@ -113,7 +111,7 @@ export default function BankPanel({ bank, banks = [], onSelectBank }) {
       {/* 🌿 Branch List */}
       <div className="mt-3 p-2">
         <h6 className="text-xs text-slate-500 mb-2">Branches</h6>
-        <div className="space-y-2 overflow-y-auto pr-2 max-h-[150px] scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+        <div className="space-y-2 overflow-y-auto pr-2 max-h-[250px] scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
           {(bank.branches || []).map((br) => (
             <div
               key={br.name}

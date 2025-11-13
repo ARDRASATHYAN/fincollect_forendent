@@ -27,7 +27,6 @@ useEffect(() => {
       const processed = data.banks.map((b, i) => ({
         id: `BANK-${i + 1}`,
         color: COLORS[i % COLORS.length],
-        established: 1990 + (i % 25),
         ...b,
       }));
 

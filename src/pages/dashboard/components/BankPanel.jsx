@@ -44,14 +44,7 @@ export default function BankPanel({ bank, banks = [], onSelectBank }) {
       {/* 🧾 Bank Info */}
       <div className="flex items-start justify-between gap-3 pb-2">
         <div className="flex items-center gap-2">
-          <div
-            className="w-10 h-10 rounded-lg"
-            style={{
-              background: bank?.color
-                ? `linear-gradient(135deg, ${bank.color}, rgba(0,0,0,0.02))`
-                : "#e5e7eb",
-            }}
-          />
+         
           <div>
             <div className="text-sm font-semibold text-slate-800">{bank.name}</div>
             

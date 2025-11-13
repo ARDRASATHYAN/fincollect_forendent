@@ -43,7 +43,7 @@ const handleTogglePassword = () => setShowPassword((prev) => !prev);
     try {
       const res = await loginUser(data);
       success("Login successfully");
-      navigate("/bank");
+      navigate("/dashboard");
     } catch (err) {
       showError(err || "Login failed");
     }

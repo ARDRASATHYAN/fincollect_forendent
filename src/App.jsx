@@ -31,7 +31,7 @@ export const LoginRoute = ({ children }) => {
 
   if (accessToken || refreshToken) {
    
-    return <Navigate to="/bank" replace />;
+    return <Navigate to="/dashboard" replace />;
   }
 
   return children;
@@ -48,7 +48,7 @@ export default function App() {
         <Routes>
          
           <Route path="/" element={<LoginRoute><LoginForm /></LoginRoute>} />
-           <Route path="/dashboard" element={<Dashboard/>} />
+           <Route path="/dashboard" element={<ProtectedRoute><Dashboard/></ProtectedRoute>} />
           <Route path="/bank" element={<ProtectedRoute><BankList /></ProtectedRoute>} />
           <Route path="/agent" element={<ProtectedRoute><AgentList /></ProtectedRoute>} />
           <Route path="/depositcode" element={<ProtectedRoute><DepositCodeList /></ProtectedRoute>} />

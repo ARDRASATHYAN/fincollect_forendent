@@ -49,8 +49,15 @@ useEffect(() => {
     agents: b.totalAgents,
   }));
 
-  if (!banks.length)
-    return <div className="p-8 text-center text-gray-600">Loading Dashboard...</div>;
+ if (!banks.length) {
+    return (
+      <Sidebar>
+        <div className="p-8 text-center text-gray-600">
+          Loading Dashboard...
+        </div>
+      </Sidebar>
+    );
+  }
 
 
   return (

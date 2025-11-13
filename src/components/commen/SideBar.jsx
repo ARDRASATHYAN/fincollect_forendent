@@ -7,6 +7,7 @@ import { FaUser, FaUsers, FaUserTie } from "react-icons/fa";
 import { MdTextsms } from "react-icons/md";
 import { ImMenu } from "react-icons/im";
 import logo from "../../assets/fincollect.png";
+import { Dashboard } from "@mui/icons-material";
 
 
 // Helper to merge Tailwind classes
@@ -22,6 +23,7 @@ export default function Sidebar({ children }) {
   const user = JSON.parse(localStorage.getItem("user"));
 
   const navigationItems = [
+    { icon: <Dashboard />, name: "dashboard", href: "/dashboard" },
     { icon: <PiBankFill />, name: "Bank", href: "/bank" },
     { icon: <FaUser />, name: "Agent", href: "/agent" },
     { icon: <RxDashboard />, name: "Deposit Code", href: "/depositcode" },

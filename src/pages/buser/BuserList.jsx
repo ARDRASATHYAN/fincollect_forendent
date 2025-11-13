@@ -73,15 +73,19 @@ export default function BuserList() {
         // Edit mode
         await updateBuser(editingBuser.bid, editingBuser.mobile, data);
         success("Bank user updated successfully!");
+         setFormOpen(false);
+               setEditingBuser(null);
       } else {
+        
         // Add mode
         await createBuser(data);
         success("New bank user added successfully!");
+        setEditingBuser(null);
+              setFormOpen(true); 
+              fetchBusers();   
       }
 
       fetchBusers();
-      setFormOpen(false);
-      setEditingBuser(null);
     } catch (err) {
       console.error(err);
       showError(err);
@@ -148,7 +152,7 @@ export default function BuserList() {
         {/* Add/Edit Form */}
         <BuserFormDrawer
           onSubmit={handleAddOrEdit}
-          agent={editingBuser}
+          buser={editingBuser}
           isOpen={isFormOpen}
           onOpen={() => setFormOpen(true)}
           onClose={() => {
@@ -159,7 +163,7 @@ export default function BuserList() {
 
         {/* Preview Sheet */}
         <BuserPreviewSheet
-          agent={previewBuser}
+          buser={previewBuser}
           isOpen={isPreviewOpen}
           onOpen={() => setPreviewOpen(true)}
           onClose={() => {

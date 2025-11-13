@@ -35,12 +35,11 @@ const defaultValues = {
   pinloginattempt: "0",
   pwd_expiry_days: "90",
   enabled: true,
-  last_login_date:"02/02/2000",
-  pwd_changed_date:"02/02/2000",
+ 
  
 };
 
-export default function BuserFormDrawer({ agent = null, onSubmit, isOpen, onOpen, onClose }) {
+export default function BuserFormDrawer({ buser = null, onSubmit, isOpen, onOpen, onClose }) {
   const [isEditing, setIsEditing] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
   const [banks, setBanks] = useState([]);
@@ -55,11 +54,11 @@ export default function BuserFormDrawer({ agent = null, onSubmit, isOpen, onOpen
     getBanks().then(setBanks).catch(console.error);
   }, []);
 
-  // Load agent for edit
+  // Load buser for edit
   useEffect(() => {
-    if (agent) {
+    if (buser) {
       setIsEditing(true);
-      const { pwd, pin, ...rest } = agent;
+      const { pwd, pin, ...rest } = buser;
       reset({
         ...defaultValues,
         ...rest,
@@ -67,23 +66,23 @@ export default function BuserFormDrawer({ agent = null, onSubmit, isOpen, onOpen
         pin: "",
       });
       setShowDetails(true);
-      if (agent.bid) setValue("bid", agent.bid);
+      if (buser.bid) setValue("bid", buser.bid);
     } else {
       reset(defaultValues);
       setIsEditing(false);
       setShowDetails(false);
     }
-  }, [agent, reset, setValue]);
+  }, [buser, reset, setValue]);
 
-  const editingAgent = agent;
+  const editingbuser = buser;
 
   const handleSave = async (data) => {
     try {
       if (!data.mname || data.mname.trim() === "") data.mname = data.name;
 
-      if (isEditing && editingAgent) {
-        if (data.pwd === editingAgent.pwd) delete data.pwd;
-        if (data.pin === editingAgent.pin) delete data.pin;
+      if (isEditing && editingbuser) {
+        if (data.pwd === editingbuser.pwd) delete data.pwd;
+        if (data.pin === editingbuser.pin) delete data.pin;
       }
 
       await onSubmit?.(data);
@@ -93,7 +92,7 @@ export default function BuserFormDrawer({ agent = null, onSubmit, isOpen, onOpen
 
       if (!isEditing) setShowDetails(false);
     } catch (err) {
-      console.error("Failed to save agent:", err);
+      console.error("Failed to save buser:", err);
     }
   };
 
@@ -105,7 +104,7 @@ export default function BuserFormDrawer({ agent = null, onSubmit, isOpen, onOpen
 
   return (
     <FormDrawer
-      title={isEditing ? "Edit Agent" : "Add New Agent"}
+      title={isEditing ? "Edit Bank User" : "Add New Bank User"}
       saveLabel={isEditing ? "Save Changes" : "Save"}
       isOpen={isOpen}
       onClose={handleCancel}
@@ -153,7 +152,7 @@ export default function BuserFormDrawer({ agent = null, onSubmit, isOpen, onOpen
             name="name"
             control={control}
             render={({ field, fieldState: { error } }) => (
-              <TextField {...field} label="Name" size="small" fullWidth error={!!error} helperText={error?.message} color="black" autoComplete="new-name" inputProps={{name: "agent_name_field",autoCorrect: "off"}}/>
+              <TextField {...field} label="Name" size="small" fullWidth error={!!error} helperText={error?.message} color="black" autoComplete="new-name" inputProps={{name: "buser_name_field",autoCorrect: "off"}}/>
             )}
           />
 
@@ -164,7 +163,7 @@ export default function BuserFormDrawer({ agent = null, onSubmit, isOpen, onOpen
             name="mobile"
             control={control}
             render={({ field, fieldState: { error } }) => (
-              <TextField {...field} label="Mobile" size="small" fullWidth error={!!error} helperText={error?.message} color="black" autoComplete="new-phone" inputProps={{name: "agent_phone_field",autoCorrect: "off"}}/>
+              <TextField {...field} label="Mobile" size="small" fullWidth error={!!error} helperText={error?.message} color="black" autoComplete="new-phone" inputProps={{name: "buser_phone_field",autoCorrect: "off"}}/>
             )}
           />
 
@@ -233,20 +232,7 @@ export default function BuserFormDrawer({ agent = null, onSubmit, isOpen, onOpen
                   <TextField {...field} label="Password Login Attempt" size="small" fullWidth error={!!error} helperText={error?.message} color="black" autoComplete="new-attempt" inputProps={{name: "attempt_field",autoCorrect: "off"}} />
                 )}
               />
-               <Controller
-                name="last_login_date"
-                control={control}
-                render={({ field, fieldState: { error } }) => (
-                  <TextField {...field} label="last login date" size="small" fullWidth error={!!error} helperText={error?.message} color="black" autoComplete="new-log" inputProps={{name: "last_field",autoCorrect: "off"}} />
-                )}
-              />
-              <Controller
-                name="pwd_changed_date"
-                control={control}
-                render={({ field, fieldState: { error } }) => (
-                  <TextField {...field} label="pwd changed date" size="small" fullWidth error={!!error} helperText={error?.message} color="black" autoComplete="new-pwd" inputProps={{name: "pwd_field",autoCorrect: "off"}} />
-                )}
-              />
+               
 
               {/* Switches */}
               <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>

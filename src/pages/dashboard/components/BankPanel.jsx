@@ -70,30 +70,37 @@ export default function BankPanel({ bank, banks = [], onSelectBank }) {
         <h5 className="text-sm font-medium text-slate-700 mb-2">
           Branch distribution
         </h5>
-        <div style={{ width: "100%", height: 220 }}>
-          <ResponsiveContainer>
-            <PieChart>
-              <Pie
-                dataKey="value"
-                data={pieData}
-                nameKey="name"
-                outerRadius={80}
-                innerRadius={36}
-                paddingAngle={4}
-              >
-                {pieData.map((entry, index) => (
-                  <Cell
-                    key={`cell-${index}`}
-                    fill={
-                      bank.color || COLORS[index % COLORS.length] || "#6366F1"
-                    }
-                  />
-                ))}
-              </Pie>
-              <Legend verticalAlign="bottom" height={36} />
-            </PieChart>
-          </ResponsiveContainer>
-        </div>
+       <div style={{ width: "100%", height: 240, paddingBottom: "20px" }}>
+  <ResponsiveContainer>
+    <PieChart>
+      <Pie
+        dataKey="value"
+        data={pieData}
+        nameKey="name"
+        outerRadius={80}
+        innerRadius={36}
+        paddingAngle={4}
+      >
+        {pieData.map((entry, index) => (
+          <Cell
+            key={`cell-${index}`}
+            fill={
+              bank.color || COLORS[index % COLORS.length] || "#6366F1"
+            }
+          />
+        ))}
+      </Pie>
+
+      {/* Add small margin below the legend */}
+      <Legend
+        verticalAlign="bottom"
+        height={36}
+        wrapperStyle={{ marginTop: 10 }}
+      />
+    </PieChart>
+  </ResponsiveContainer>
+</div>
+
 
         {/* Branch List */}
         <div className="mt-3 p-2">

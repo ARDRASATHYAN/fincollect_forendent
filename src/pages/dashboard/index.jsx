@@ -1,77 +1,60 @@
 "use client";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import {
   BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer,
   PieChart, Pie, Cell, Legend
 } from "recharts";
 import {
-  Banknote,
-  Building2,
-  Users,
-  TrendingUp,
-  ChevronRight,
-  Sparkles
+  Banknote, Building2, Users, TrendingUp, ChevronRight
 } from "lucide-react";
 import Sidebar from "@/components/commen/SideBar";
 
-/**
- * Creative Modern Fintech Dashboard
- * - drop into app/dashboard/page.jsx (Next.js) or a route component
- * - uses Tailwind CSS for styling
- * - mock data is below; replace with API calls where indicated
- */
 const COLORS = ["#6366F1","#06B6D4","#10B981","#F59E0B","#EF4444","#8B5CF6","#06B6D4","#FB7185","#0EA5E9","#7C3AED","#F97316","#14B8A6"];
-/* =========================
-   Mock data (replace with API)
-   ========================= */
-const MOCK_BANKS = Array.from({ length: 12 }, (_, i) => {
-  const branchesCount = Math.floor(Math.random() * 6) + 3;
-  const branches = Array.from({ length: branchesCount }, (__, j) => {
-    return {
-      id: `B${i + 1}-BR${j + 1}`,
-      name: `Branch ${j + 1}`,
-      agents: Math.floor(Math.random() * 80) + 5,
-    };
-  });
-  const totalAgents = branches.reduce((s, b) => s + b.agents, 0);
-  return {
-    id: `BANK-${String(i + 1).padStart(3, "0")}`,
-    name: `Bank ${i + 1}`,
-    color: COLORS[i % COLORS.length],
-    branches,
-    totalAgents,
-    established: 1990 + (i % 25),
-  };
-});
 
-
-
-/* =========================
-   Component
-   ========================= */
 export default function Dashboard() {
-  // Replace MOCK_BANKS with a fetch call to your API and set in state
-  // e.g., useEffect(() => fetch('/api/dashboard').then(r=>r.json()).then(setBanks), [])
-  const [banks] = useState(MOCK_BANKS);
-  const [selectedBankId, setSelectedBankId] = useState(banks[0]?.id || null);
+  const [banks, setBanks] = useState([]);
+  const [selectedBankId, setSelectedBankId] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const selectedBank = useMemo(
+  // ✅ Fetch data from backend
+  useEffect(() => {
+    async function fetchDashboard() {
+      try {
+        const res = await fetch("http://localhost:5000/dashboard");
+        const data = await res.json();
+        setBanks(data.banks || []);
+        setSelectedBankId(data.banks?.[0]?.id || null);
+      } catch (err) {
+        console.error("Error loading dashboard:", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchDashboard();
+  }, []);
+  
+    const selectedBank = useMemo(
     () => banks.find((b) => b.id === selectedBankId) || banks[0],
     [banks, selectedBankId]
   );
 
+  if (loading) return <div className="p-8 text-center">Loading Dashboard...</div>;
+
+
+
   const totalBanks = banks.length;
   const totalBranches = banks.reduce((acc, b) => acc + b.branches.length, 0);
   const totalAgents = banks.reduce((acc, b) => acc + b.totalAgents, 0);
-
   const agentsPerBank = banks.map((b) => ({ name: b.name, agents: b.totalAgents }));
 
-  // Prepare pie data for selected bank (branches)
   const pieData = (selectedBank?.branches || []).map((br) => ({
     name: br.name,
     value: br.agents,
   }));
+
+  // ✅ Then your JSX stays the same below
+
 
   return (
     <Sidebar>
@@ -87,11 +70,11 @@ export default function Dashboard() {
         </div>
 
         {/* KPIs */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-6">
           <KpiCard title="Total Banks" value={totalBanks} description="Active banking partners" colorFrom="from-indigo-500" colorTo="to-indigo-700" icon={<Banknote className="w-5 h-5" />} />
           <KpiCard title="Total Branches" value={totalBranches} description="All branches across banks" colorFrom="from-emerald-500" colorTo="to-emerald-700" icon={<Building2 className="w-5 h-5" />} />
           <KpiCard title="Total Agents" value={totalAgents} description="Registered agents" colorFrom="from-violet-500" colorTo="to-violet-700" icon={<Users className="w-5 h-5" />} />
-          <KpiCard title="Growth (30d)" value="+8.4%" description="Agent growth rate" colorFrom="from-yellow-400" colorTo="to-orange-500" icon={<TrendingUp className="w-5 h-5" />} />
+          {/* <KpiCard title="Growth (30d)" value="+8.4%" description="Agent growth rate" colorFrom="from-yellow-400" colorTo="to-orange-500" icon={<TrendingUp className="w-5 h-5" />} /> */}
         </div>
 
         {/* Main area: left charts, right bank panel */}
@@ -130,11 +113,11 @@ export default function Dashboard() {
             </div>
 
             {/* Agent trend + mini-list */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="bg-white rounded-2xl p-4 shadow-md border border-gray-100 md:col-span-2">
+            {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-4"> */}
+              {/* <div className="bg-white rounded-2xl p-4 shadow-md border border-gray-100 md:col-span-2">
                 <h4 className="text-sm font-medium text-slate-700 mb-2">Agent growth (last 6 months)</h4>
                 <MiniAreaChart />
-              </div>
+              </div> */}
 
               <div className="bg-white rounded-2xl p-4 shadow-md border border-gray-100">
                 <h4 className="text-sm font-medium text-slate-700 mb-2">Top Banks by Agents</h4>
@@ -154,7 +137,7 @@ export default function Dashboard() {
                     ))}
                 </ul>
               </div>
-            </div>
+            {/* </div> */}
           </div>
 
           {/* RIGHT: Selected Bank panel */}
@@ -199,7 +182,7 @@ export default function Dashboard() {
 
               <div className="mt-3">
                 <h6 className="text-xs text-slate-500 mb-2">Branches</h6>
-                <div className="space-y-2 max-h-40 overflow-auto pr-2">
+                <div className="space-y-2 overflow-auto pr-2">
                   {selectedBank.branches.map((br) => (
                     <div key={br.id} className="flex items-center justify-between bg-slate-50 p-2 rounded-lg">
                       <div>
@@ -211,7 +194,7 @@ export default function Dashboard() {
                   ))}
                 </div>
               </div>
-
+{/* 
               <button
                 onClick={() => {
                   // Example: navigate to bank detail page, or open full modal
@@ -220,7 +203,7 @@ export default function Dashboard() {
                 className="mt-4 w-full inline-flex items-center justify-center gap-2 py-2 rounded-md bg-gradient-to-r from-indigo-600 to-indigo-500 text-white hover:opacity-95"
               >
                 View full bank report <ChevronRight className="w-4 h-4" />
-              </button>
+              </button> */}
             </div>
           </motion.aside>
         </div>
@@ -253,23 +236,23 @@ function KpiCard({ title, value, description, colorFrom="from-indigo-500", color
   );
 }
 
-function MiniAreaChart() {
-  // Tiny mock time-series for look & feel
-  const trend = [
-    { x: "Jan", y: 80 }, { x: "Feb", y: 95 }, { x: "Mar", y: 110 },
-    { x: "Apr", y: 125 }, { x: "May", y: 138 }, { x: "Jun", y: 145 }
-  ];
-  // We'll use a bar-style micro chart using recharts Area / Bar is fine — keep minimal
-  return (
-    <div style={{ width: "100%", height: 110 }}>
-      <ResponsiveContainer>
-        <BarChart data={trend}>
-          <CartesianGrid vertical={false} horizontal={false} />
-          <XAxis dataKey="x" axisLine={false} tick={{ fontSize: 11 }} />
-          <Tooltip />
-          <Bar dataKey="y" fill="#7C3AED" radius={[6,6,6,6]} />
-        </BarChart>
-      </ResponsiveContainer>
-    </div>
-  );
-}
+// function MiniAreaChart() {
+//   // Tiny mock time-series for look & feel
+//   const trend = [
+//     { x: "Jan", y: 80 }, { x: "Feb", y: 95 }, { x: "Mar", y: 110 },
+//     { x: "Apr", y: 125 }, { x: "May", y: 138 }, { x: "Jun", y: 145 }
+//   ];
+//   // We'll use a bar-style micro chart using recharts Area / Bar is fine — keep minimal
+//   return (
+//     <div style={{ width: "100%", height: 110 }}>
+//       <ResponsiveContainer>
+//         <BarChart data={trend}>
+//           <CartesianGrid vertical={false} horizontal={false} />
+//           <XAxis dataKey="x" axisLine={false} tick={{ fontSize: 11 }} />
+//           <Tooltip />
+//           <Bar dataKey="y" fill="#7C3AED" radius={[6,6,6,6]} />
+//         </BarChart>
+//       </ResponsiveContainer>
+//     </div>
+//   );
+// }

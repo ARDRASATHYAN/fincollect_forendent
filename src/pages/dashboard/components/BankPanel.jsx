@@ -24,9 +24,9 @@ export default function BankPanel({ bank, banks = [], onSelectBank }) {
       {/* Bank Selector */}
       <div className="mb-4">
         <Select
-  value={bank?.id?.toString() || ""}
-  onValueChange={(value) => onSelectBank(value)}
->
+          value={bank?.id?.toString() || ""}
+          onValueChange={(value) => onSelectBank(value)}
+        >
 
           <SelectTrigger className="w-full border text-sm focus:ring-2 focus:ring-indigo-500">
             <SelectValue placeholder="Choose bank" />
@@ -39,7 +39,7 @@ export default function BankPanel({ bank, banks = [], onSelectBank }) {
             ))}
           </SelectContent>
         </Select>
-        
+
       </div>
 
       {/* Bank Info */}
@@ -101,9 +101,9 @@ export default function BankPanel({ bank, banks = [], onSelectBank }) {
         </div>
 
         {/* Branch list */}
-        <div className="mt-3">
+        <div className="mt-3 p-2">
           <h6 className="text-xs text-slate-500 mb-2">Branches</h6>
-          <div className="space-y-2 overflow-auto pr-2 max-h-90">
+          <div className="space-y-2 overflow-auto pr-2 max-h-50">
             {(bank.branches || []).map((br) => (
               <div
                 key={br.name}

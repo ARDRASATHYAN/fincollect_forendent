@@ -11,7 +11,7 @@ export default function TopBanksList({ banks }) {
             <li key={b.id} className="flex items-center justify-between">
               <div>
                 <div className="text-sm font-medium text-slate-800">{b.name}</div>
-                <div className="text-xs text-slate-500">{b.totalBranches} branches</div>
+                <div className="text-xs text-slate-500"> {b.branches?.length || 0} branches</div>
               </div>
               <div className="text-sm font-semibold text-slate-800">{b.totalAgents}</div>
             </li>

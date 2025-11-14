@@ -17,6 +17,8 @@ export default function BankList() {
   const [modalOpen, setModalOpen] = useState(false);
   const [bankToDelete, setBankToDelete] = useState(null);
   const [confirmOpen, setConfirmOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
 
   const { success, error: showError } = useToast();
 
@@ -27,6 +29,9 @@ export default function BankList() {
     } catch (error) {
       console.error("Error fetching banks:", error);
       showError(error);
+    }
+    finally {
+      setIsLoading(false);
     }
   };
 
@@ -111,12 +116,12 @@ export default function BankList() {
         {/* Search & Table */}
         <div className="border border-gray-200 rounded-lg  bg-white shadow-sm flex flex-col min-h-0">
           <ControlPanel onSearch={setSearchTerm} />
-<div className="p-2">
-          <DataTable
-            columns={columns}
-            data={banks}
-
-          />
+          <div className="p-2">
+            <DataTable
+              columns={columns}
+              data={banks}
+            loading={isLoading}
+            />
           </div>
         </div>
 

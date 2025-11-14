@@ -15,11 +15,15 @@ export default function DashboardPage() {
   const [banks, setBanks] = useState([]);
   const [chartType, setChartType] = useState("area");
   const [selectedBankId, setSelectedBankId] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
  const [summary, setSummary] = useState({ totalBanks: 0, totalBranches: 0, totalAgents: 0 });
 
 useEffect(() => {
   (async () => {
+    // check skelton is working or not make 2 sec delay
+    // setIsLoading(true);
+    // await new Promise(resolve => setTimeout(resolve, 2000));
     try {
       const data  = await getDashboardData();
 
@@ -35,6 +39,8 @@ useEffect(() => {
       setSelectedBankId(processed[0]?.id);
     } catch (err) {
       console.error("Failed to load dashboard data:", err);
+    }finally {
+      setIsLoading(false);  
     }
   })();
 }, []);
@@ -49,15 +55,15 @@ useEffect(() => {
     agents: b.totalAgents,
   }));
 
- if (!banks.length) {
-    return (
-      <Sidebar>
-        <div className="p-8 text-center text-gray-600">
-          Loading Dashboard...
-        </div>
-      </Sidebar>
-    );
-  }
+//  if (!banks.length) {
+//     return (
+//       <Sidebar>
+//         <div className="p-8 text-center text-gray-600">
+//           Loading Dashboard...
+//         </div>
+//       </Sidebar>
+//     );
+//   }
 
 
   return (
@@ -77,6 +83,7 @@ useEffect(() => {
             colorFrom="from-indigo-500"
             colorTo="to-indigo-700"
             icon={<Banknote />}
+            isLoading={isLoading}
           />
           <KpiCard
             title="Total Branches"
@@ -85,6 +92,7 @@ useEffect(() => {
             colorFrom="from-emerald-500"
             colorTo="to-emerald-700"
             icon={<Building2 />}
+            isLoading={isLoading}
           />
           <KpiCard
             title="Total Agents"
@@ -93,6 +101,7 @@ useEffect(() => {
             colorFrom="from-violet-500"
             colorTo="to-violet-700"
             icon={<Users />}
+            isLoading={isLoading}
           />
         </div>
 
@@ -124,15 +133,15 @@ useEffect(() => {
 
 
 
-              <BankChart data={agentsPerBank} chartType={chartType} />
+              <BankChart data={agentsPerBank} chartType={chartType} isLoading={isLoading}/>
             </div>
 
-            <TopBanksList banks={banks} />
+            <TopBanksList banks={banks} isLoading={isLoading}/>
           </div>
 
           {selectedBank && <BankPanel bank={selectedBank}
             banks={banks}
-            onSelectBank={setSelectedBankId} />}
+            onSelectBank={setSelectedBankId} isLoading={isLoading}/>}
         </div>
       </div>
     </Sidebar>

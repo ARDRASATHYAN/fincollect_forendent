@@ -17,7 +17,7 @@ export const ProtectedRoute = ({ children }) => {
   const accessToken = localStorage.getItem("accessToken");
   const refreshToken = localStorage.getItem("refreshToken");
 
- 
+
   if (!accessToken && !refreshToken) {
     return <Navigate to="/" replace />;
   }
@@ -30,7 +30,6 @@ export const LoginRoute = ({ children }) => {
   const refreshToken = localStorage.getItem("refreshToken");
 
   if (accessToken || refreshToken) {
-   
     return <Navigate to="/dashboard" replace />;
   }
 
@@ -46,16 +45,16 @@ export default function App() {
     <>
       <Router>
         <Routes>
-         
+
           <Route path="/" element={<LoginRoute><LoginForm /></LoginRoute>} />
-           <Route path="/dashboard" element={<ProtectedRoute><Dashboard/></ProtectedRoute>} />
+          <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
           <Route path="/bank" element={<ProtectedRoute><BankList /></ProtectedRoute>} />
           <Route path="/agent" element={<ProtectedRoute><AgentList /></ProtectedRoute>} />
           <Route path="/depositcode" element={<ProtectedRoute><DepositCodeList /></ProtectedRoute>} />
           <Route path="/smstemplate" element={<ProtectedRoute><SmsTemplateLists /></ProtectedRoute>} />
           <Route path="/user" element={<ProtectedRoute><UserList /></ProtectedRoute>} />
-           <Route path="/buser" element={<ProtectedRoute><BuserList /></ProtectedRoute>} />
-          <Route path="/forgotpassword" element={< ForgotPassword/>} />
+          <Route path="/buser" element={<ProtectedRoute><BuserList /></ProtectedRoute>} />
+          <Route path="/forgotpassword" element={< ForgotPassword />} />
           <Route path="/resetpassword/:token" element={<ResetPassword />} />
 
 

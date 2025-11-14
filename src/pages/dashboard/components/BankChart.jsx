@@ -1,6 +1,11 @@
+import { Skeleton } from "@/components/ui/skeleton";
 import { AreaChart, Area, BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer } from "recharts";
 
-export default function BankChart({ data, chartType }) {
+export default function BankChart({ data, chartType ,isLoading }) {
+  if (isLoading) {
+    return <Skeleton className="h-64 w-full rounded-xl" />;
+  }
+
   return (
     <ResponsiveContainer width="100%" height={380}>
       {chartType === "area" ? (

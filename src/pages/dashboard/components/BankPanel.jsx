@@ -1,4 +1,5 @@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Skeleton } from "@/components/ui/skeleton";
 import React from "react";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 
@@ -6,14 +7,20 @@ const COLORS = ["#6366F1","#06B6D4","#10B981","#F59E0B",
       "#EF4444","#170939ff","#FB7185","#0EA5E9",
       "#7C3AED","#F97316","#14B8A6","#0EA5E9"];
 
-export default function BankPanel({ bank, banks = [], onSelectBank }) {
-  if (!bank) {
+export default function BankPanel({ bank, banks = [], onSelectBank,isLoading  }) {
+ if (isLoading || !bank) {
     return (
-      <div className="bg-white rounded-2xl p-5 shadow-md border border-gray-100 text-center text-gray-500">
-        Loading bank data...
+      <div className="bg-white p-6 rounded-2xl shadow border">
+        <Skeleton className="h-6 w-32 mb-4" />
+        <Skeleton className="h-10 w-full mb-3" />
+        <Skeleton className="h-10 w-full mb-3" />
+        <Skeleton className="h-10 w-full" />
+        <Skeleton className="h-64 w-full mt-4 rounded-xl" /> {/* chart placeholder */}
       </div>
     );
   }
+
+
 
   const pieData = (bank.branches || []).map((br) => ({
     name: br.name,

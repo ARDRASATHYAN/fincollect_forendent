@@ -13,37 +13,37 @@ const COLORS = ["#6366F1", "#06B6D4", "#10B981", "#F59E0B", "#EF4444"];
 
 export default function DashboardPage() {
   const [banks, setBanks] = useState([]);
-  const [chartType, setChartType] = useState("area");
+  const [chartType, setChartType] = useState("bar");
   const [selectedBankId, setSelectedBankId] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
- const [summary, setSummary] = useState({ totalBanks: 0, totalBranches: 0, totalAgents: 0 });
+  const [summary, setSummary] = useState({ totalBanks: 0, totalBranches: 0, totalAgents: 0 });
 
-useEffect(() => {
-  (async () => {
-    // check skelton is working or not make 2 sec delay
-    // setIsLoading(true);
-    // await new Promise(resolve => setTimeout(resolve, 2000));
-    try {
-      const data  = await getDashboardData();
+  useEffect(() => {
+    (async () => {
+      // check skelton is working or not make 2 sec delay
+      // setIsLoading(true);
+      // await new Promise(resolve => setTimeout(resolve, 2000));
+      try {
+        const data = await getDashboardData();
 
-      // Save both banks and summary data
-      const processed = data.banks.map((b, i) => ({
-        id: `BANK-${i + 1}`,
-        color: COLORS[i % COLORS.length],
-        ...b,
-      }));
+        // Save both banks and summary data
+        const processed = data.banks.map((b, i) => ({
+          id: `BANK-${i + 1}`,
+          color: COLORS[i % COLORS.length],
+          ...b,
+        }));
 
-      setBanks(processed);
-      setSummary(data.summary || {});
-      setSelectedBankId(processed[0]?.id);
-    } catch (err) {
-      console.error("Failed to load dashboard data:", err);
-    }finally {
-      setIsLoading(false);  
-    }
-  })();
-}, []);
+        setBanks(processed);
+        setSummary(data.summary || {});
+        setSelectedBankId(processed[0]?.id);
+      } catch (err) {
+        console.error("Failed to load dashboard data:", err);
+      } finally {
+        setIsLoading(false);
+      }
+    })();
+  }, []);
 
 
   const selectedBank = useMemo(
@@ -55,15 +55,15 @@ useEffect(() => {
     agents: b.totalAgents,
   }));
 
-//  if (!banks.length) {
-//     return (
-//       <Sidebar>
-//         <div className="p-8 text-center text-gray-600">
-//           Loading Dashboard...
-//         </div>
-//       </Sidebar>
-//     );
-//   }
+  //  if (!banks.length) {
+  //     return (
+  //       <Sidebar>
+  //         <div className="p-8 text-center text-gray-600">
+  //           Loading Dashboard...
+  //         </div>
+  //       </Sidebar>
+  //     );
+  //   }
 
 
   return (
@@ -86,23 +86,24 @@ useEffect(() => {
             isLoading={isLoading}
           />
           <KpiCard
-            title="Total Branches"
-            value={summary.totalBranches}
-            description="All Branches"
-            colorFrom="from-emerald-500"
-            colorTo="to-emerald-700"
-            icon={<Building2 />}
-            isLoading={isLoading}
-          />
-          <KpiCard
             title="Total Agents"
             value={summary.totalAgents}
-            description="Registered Agents"
-            colorFrom="from-violet-500"
-            colorTo="to-violet-700"
+            description="Active Agents"
+            colorFrom="from-emerald-500"
+            colorTo="to-emerald-700"
             icon={<Users />}
             isLoading={isLoading}
           />
+          <KpiCard
+            title="Total Collections"
+            value={summary.totalAmount}
+            description="Of Active Agents"
+            colorFrom="from-violet-500"
+            colorTo="to-violet-700"
+            icon={<Building2 />}
+            isLoading={isLoading}
+          />
+
         </div>
 
         {/* Chart + List + Bank Details */}
@@ -124,8 +125,8 @@ useEffect(() => {
                     <SelectValue placeholder="Select Chart Type" />
                   </SelectTrigger>
                   <SelectContent className="max-h-48 overflow-y-auto">
-                    <SelectItem value="area">Area Chart</SelectItem>
                     <SelectItem value="bar">Bar Chart</SelectItem>
+                    <SelectItem value="area">Area Chart</SelectItem>
                   </SelectContent>
                 </Select>
 
@@ -133,15 +134,15 @@ useEffect(() => {
 
 
 
-              <BankChart data={agentsPerBank} chartType={chartType} isLoading={isLoading}/>
+              <BankChart data={agentsPerBank} chartType={chartType} isLoading={isLoading} />
             </div>
 
-            <TopBanksList banks={banks} isLoading={isLoading}/>
+            <TopBanksList banks={banks} isLoading={isLoading} />
           </div>
 
           {selectedBank && <BankPanel bank={selectedBank}
             banks={banks}
-            onSelectBank={setSelectedBankId} isLoading={isLoading}/>}
+            onSelectBank={setSelectedBankId} isLoading={isLoading} />}
         </div>
       </div>
     </Sidebar>

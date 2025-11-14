@@ -49,27 +49,18 @@ export default function BankPanel({ bank, banks = [], onSelectBank,isLoading  })
       </div>
 
       {/* 🧾 Bank Info */}
-      <div className="flex items-start justify-between gap-3 pb-2">
-        <div className="flex items-center gap-2">
-         
-          <div>
+      <div className="flex items-start pb-2">
             <div className="text-sm font-semibold text-slate-800">{bank.name}</div>
-            
-          </div>
-        </div>
-        <div className="text-right">
-          <div className="text-xs text-slate-500">Total Agents</div>
-          <div className="text-lg font-bold text-slate-800">
+      </div>
+      <div className="flex items-center justify-between bg-slate-50 p-2 rounded-lg">
+          <div className="text-sm font-medium text-slate-800">Total Agents</div>
+          <div className="text-sm font-medium text-slate-800">
             {bank.totalAgents || 0}
           </div>
         </div>
-      </div>
 
       {/* 🥧 Chart Section */}
       <div className="mt-4">
-        <h5 className="text-sm font-medium text-slate-700 mb-2">
-          Branch distribution
-        </h5>
 
         {/* Chart container */}
         <div style={{ width: "100%", height: 200 }}>
@@ -110,9 +101,8 @@ export default function BankPanel({ bank, banks = [], onSelectBank,isLoading  })
         </div>
       </div>
 
-      {/* 🌿 Branch List */}
+      {/* Branch List */}
       <div className="mt-3 p-2">
-        <h6 className="text-xs text-slate-500 mb-2">Branches</h6>
         <div className="space-y-2 overflow-y-auto pr-2 max-h-[250px] scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
           {(bank.branches || []).map((br) => (
             <div

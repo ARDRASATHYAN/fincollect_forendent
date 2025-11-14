@@ -1,13 +1,13 @@
 "use client";
 import React, { useEffect, useState, useMemo } from "react";
 import { Banknote, Building2, Users } from "lucide-react";
-import apiClient from "@/apiservices/apilCient";
 import Sidebar from "@/components/commen/SideBar";
 import KpiCard from "./components/KpiCard";
 import BankChart from "./components/BankChart";
 import TopBanksList from "./components/TopBanksList";
 import BankPanel from "./components/BankPanel";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { getDashboardData } from "@/apiservices/dashboardApi";
 
 const COLORS = ["#6366F1", "#06B6D4", "#10B981", "#F59E0B", "#EF4444"];
 
@@ -21,7 +21,7 @@ export default function DashboardPage() {
 useEffect(() => {
   (async () => {
     try {
-      const { data } = await apiClient.get("/dashboard");
+      const data  = await getDashboardData();
 
       // Save both banks and summary data
       const processed = data.banks.map((b, i) => ({

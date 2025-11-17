@@ -28,6 +28,10 @@ export const getdepositcodeColumns = (handleDelete, handleEdit) => [
     accessorKey: "multiples",
   },
   {
+    header: "denomination",
+    accessorKey: "denomination",
+  },
+  {
     header: "Stmt_req",
     accessorKey: "Stmt_Req",
   },

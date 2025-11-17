@@ -20,6 +20,7 @@ const validationSchema = yup.object().shape({
   times: yup.string().required("Times is required."),
   multiples: yup.string().required("Multiples is required."),
   Stmt_Req: yup.string(),
+  denomination:yup.string(),
 });
 
 const defaultValues = {
@@ -28,6 +29,7 @@ const defaultValues = {
   description: "",
   times: 1,
   multiples: 0,
+  denomination:0,
   Stmt_Req: 0,
 
 };
@@ -174,6 +176,16 @@ export default function DepositCodeFormSheet({ agent = null, onSubmit, isOpen, o
               control={control}
               render={({ field, fieldState: { error } }) => (
                 <TextField {...field} label="Multiples" size="small" fullWidth error={!!error} helperText={error?.message} color="black" autoComplete="new-mul" inputProps={{name: "expiry_mul",autoCorrect: "off"}}/>
+              )}
+            />
+        
+        </div>
+         <div className="flex flex-col">
+           <Controller
+              name="denomination"
+              control={control}
+              render={({ field, fieldState: { error } }) => (
+                <TextField {...field} label="denomination" size="small" fullWidth error={!!error} helperText={error?.message} color="black" autoComplete="new-mul" inputProps={{name: "denomination",autoCorrect: "off"}}/>
               )}
             />
         

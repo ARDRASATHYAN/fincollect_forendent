@@ -32,6 +32,10 @@ export const getdepositcodeColumns = (handleDelete, handleEdit) => [
     accessorKey: "denomination",
   },
   {
+    header: "SMS Required",
+    accessorKey: "SMS_Required",
+  },
+  {
     header: "Stmt_req",
     accessorKey: "Stmt_Req",
   },

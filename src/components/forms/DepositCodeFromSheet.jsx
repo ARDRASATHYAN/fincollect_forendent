@@ -20,6 +20,7 @@ const validationSchema = yup.object().shape({
   times: yup.string().required("Times is required."),
   multiples: yup.string().required("Multiples is required."),
   Stmt_Req: yup.string(),
+   SMS_Required: yup.string(),
   denomination:yup.string(),
 });
 
@@ -30,6 +31,7 @@ const defaultValues = {
   times: 1,
   multiples: 0,
   denomination:0,
+  SMS_Required:1,
   Stmt_Req: 0,
 
 };
@@ -189,6 +191,17 @@ export default function DepositCodeFormSheet({ agent = null, onSubmit, isOpen, o
               )}
             />
         
+        </div>
+        {/* Stmt_Req */}
+        <div className="flex flex-col">
+           <Controller
+              name="SMS_Required"
+              control={control}
+              render={({ field, fieldState: { error } }) => (
+                <TextField {...field} label="SMS Required" size="small" fullWidth error={!!error} helperText={error?.message} color="black" autoComplete="new-smt" inputProps={{name: "smt_field",autoCorrect: "off"}}/>
+              )}
+            />
+       
         </div>
 
         {/* Stmt_Req */}

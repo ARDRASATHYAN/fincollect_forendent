@@ -24,11 +24,11 @@ export default function Sidebar({ children }) {
 
   const navigationItems = [
     { icon: <Dashboard />, name: "dashboard", href: "/dashboard" },
-    { icon: <PiBankFill />, name: "Bank", href: "/bank" },
-    { icon: <FaUser />, name: "Agent", href: "/agent" },
-    { icon: <RxDashboard />, name: "Deposit Code", href: "/depositcode" },
-    { icon: <MdTextsms />, name: "SMS Template", href: "/smstemplate" },
-     { icon: <FaUserTie />, name: "Bank Staff", href: "/buser" },
+    { icon: <PiBankFill />, name: "Banks", href: "/bank" },
+    { icon: <FaUser />, name: "Agents", href: "/agent" },
+    { icon: <RxDashboard />, name: "Deposit Types", href: "/depositcode" },
+    { icon: <MdTextsms />, name: "SMS Templates", href: "/smstemplate" },
+     { icon: <FaUserTie />, name: "Bank Users", href: "/buser" },
     ...(user?.role === "admin"
       ? [{ icon: <FaUsers />, name: "Maxence Users", href: "/user" }]
       : []),

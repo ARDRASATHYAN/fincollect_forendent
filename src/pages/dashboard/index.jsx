@@ -95,13 +95,17 @@ export default function DashboardPage() {
             isLoading={isLoading}
           />
           <KpiCard
-            title="Total Collections"
-            value={summary.totalAmount}
-            description="Of Active Agents"
+            title="Estimated Revenue"
+            value={summary?.totalRevenue != null
+  ? summary.totalRevenue.toLocaleString("en-IN")
+  : 0}
+
+            description="per year"
             colorFrom="from-violet-500"
             colorTo="to-violet-700"
             icon={<Building2 />}
             isLoading={isLoading}
+            
           />
 
         </div>

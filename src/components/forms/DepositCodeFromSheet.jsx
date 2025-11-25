@@ -195,7 +195,7 @@ export default function DepositCodeFormSheet({ agent = null, onSubmit, isOpen, o
         {/* Stmt_Req */}
         <div className="flex flex-col">
            <Controller
-              name="SMS_Required"
+              name="sms_required"
               control={control}
               render={({ field, fieldState: { error } }) => (
                 <TextField {...field} label="SMS Required" size="small" fullWidth error={!!error} helperText={error?.message} color="black" autoComplete="new-smt" inputProps={{name: "smt_field",autoCorrect: "off"}}/>

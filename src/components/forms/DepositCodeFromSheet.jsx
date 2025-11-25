@@ -20,7 +20,7 @@ const validationSchema = yup.object().shape({
   times: yup.string().required("Times is required."),
   multiples: yup.string().required("Multiples is required."),
   Stmt_Req: yup.string(),
-   SMS_Required: yup.string(),
+  sms_required: yup.string(),
   denomination:yup.string(),
 });
 
@@ -31,7 +31,7 @@ const defaultValues = {
   times: 1,
   multiples: 0,
   denomination:0,
-  SMS_Required:1,
+  sms_required:1,
   Stmt_Req: 0,
 
 };

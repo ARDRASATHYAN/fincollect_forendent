@@ -111,14 +111,14 @@ export default function AgentList() {
   };
 
   // Delete
-  const handleDeleteClick = (id) => {
-    setAgentToDelete(id);
+  const handleDeleteClick = (id,bid) => {
+    setAgentToDelete({id,bid});
     setConfirmOpen(true);
   };
 
   const handleConfirmDelete = async () => {
     try {
-      await deleteAgent(agentToDelete);
+      await deleteAgent(agentToDelete.bid, agentToDelete.id);
       success("Agent deleted successfully!");
       fetchAgents();
     } catch (err) {
@@ -247,7 +247,7 @@ const handleRestoreTransactions = async (agent) => {
           title="Delete Agent"
           message={
             agentToDelete
-              ? `Are you sure you want to delete Agent ID: ${agentToDelete}?`
+              ? `Are you sure you want to delete Agent ID: ${agentToDelete.id}?`
               : ""
           }
           onConfirm={handleConfirmDelete}

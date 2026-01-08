@@ -59,7 +59,7 @@ const isAdmin = user.role === "admin";
   onRestore?.(data); 
   break;
       case "delete":
-        onDelete?.(data.id);
+        onDelete?.(data.id,data.bid);
         break;
       default:
         break;

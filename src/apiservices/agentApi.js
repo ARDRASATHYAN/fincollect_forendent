@@ -42,7 +42,7 @@ export const updateAgent = async (bid, id, data) => {
 
 
 //  Delete agent
-export const deleteAgent = async (id) => {
-  const res = await apiClient.delete(`/agent/${id}`);
+export const deleteAgent = async (bid,id) => {
+  const res = await apiClient.delete(`/agent/${bid}/${id}`);
   return res.data;
 };
